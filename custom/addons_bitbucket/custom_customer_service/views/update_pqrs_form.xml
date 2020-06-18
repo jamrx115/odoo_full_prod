@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- actualizando form PQRS -->
+        <record id="main_form_updated_by_analysis" model="ir.ui.view">
+            <field name="model">custom.pqrs</field>
+            <field name="inherit_id" ref="pqrs_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page name="analysis" string="Etapa análisis" attrs="{'invisible':[('state','=','draft')]}">
+                        <group>
+                            <field name="deliverable_ids" options="{'no_create_edit': True}" attrs="{'readonly':['|', ('state','=','answered'), '|', ('state','=','confirmed'), '|', ('state','=','close'), ('state','=','closed')], 'required':[('state','=','analysis')]}" widget="many2many_tags"></field>
+                            <field name="affprocess_id" options="{'no_create_edit': True, 'no_open': True}" attrs="{'readonly':['|', ('state','=','answered'), '|', ('state','=','confirmed'), '|', ('state','=','close'), ('state','=','closed')], 'required':[('state','=','analysis')]}"></field>
+                            <field name="cause_id" options="{'no_create_edit': True, 'no_open': True}" attrs="{'readonly':['|', ('state','=','answered'), '|', ('state','=','confirmed'), '|', ('state','=','close'), ('state','=','closed')], 'required':[('state','=','analysis')]}"></field>
+                            <field name="cause_note" attrs="{'readonly':['|', ('state','=','answered'), '|', ('state','=','confirmed'), '|', ('state','=','close'), ('state','=','closed')]}"></field>
+                            <field name="cause_method_id" options="{'no_create_edit': True, 'no_open': True}" attrs="{'readonly':['|', ('state','=','answered'), '|', ('state','=','confirmed'), '|', ('state','=','close'), ('state','=','closed')], 'required':[('state','=','analysis')]}"></field>
+                            <field name="answer" attrs="{'readonly':['|', ('state','=','answered'), '|', ('state','=','confirmed'), '|', ('state','=','close'), ('state','=','closed')]}"></field>
+                            <field name="opportunity_ids" options="{'no_create_edit': True}" attrs="{'readonly':['|', ('state','=','answered'), '|', ('state','=','confirmed'), '|', ('state','=','close'), ('state','=','closed')], 'required':[('state','=','analysis')]}" widget="many2many_tags"></field>
+                        </group>
+                    </page>
+                    <page name="answered" string="Etapa respuesta" attrs="{'invisible':['|', ('state','=','draft'), ('state','=','analysis')]}">
+                        <group string="Correo de notificación al cliente">
+                            <field name="subject"   attrs="{'readonly':['|', ('state','=','confirmed'), '|', ('state','=','close'), ('state','=','closed')], 'required':[('state','=','answered')]}"></field>
+                            <field name="mail_body" attrs="{'readonly':['|', ('state','=','confirmed'), '|', ('state','=','close'), ('state','=','closed')], 'required':[('state','=','answered')]}"></field>
+                        </group>
+                        <p><small><b>Nota: </b>Debe adjuntarse evidencia de acción de mejora.</small></p>
+                        <button string="Enviar" name="send_email_customer" states="answered" type="object" class="oe_highlight oe_right"/>
+                    </page>
+                    <page name="confirmed" string="Etapa validación de solución" attrs="{'invisible':['|', ('state','=','draft'), '|', ('state','=','analysis'), ('state','=','answered')]}">
+                        <group>
+                            <field name="name_answer_validation" attrs="{'readonly':['|', ('state','=','close'), ('state','=','closed')], 'required':[('state','=','confirmed')]}"></field>
+                            <field name="description_answer_validation" attrs="{'invisible':[('name_answer_validation','=','adjunto')], 'readonly':['|', ('state','=','close'), ('state','=','closed')], 'required':['&amp;', ('name_answer_validation','=','texto'), ('state','=','confirmed')]}"></field>
+                        </group>
+                    </page>
+                    <page name="close" string="Etapa cierre" attrs="{'invisible':['|', ('state','=','draft'), '|', ('state','=','analysis'), '|', ('state','=','answered'), ('state','=','confirmed')]}">
+                        <group>
+                            <field name="answer_time" attrs="{'readonly':[('state','=','closed')], 'required':[('state','=','close')]}"></field>
+                            <field name="answer_close" attrs="{'readonly':[('state','=','closed')], 'required':[('state','=','close')]}"></field>
+                            <field name="answer_treatment" attrs="{'readonly':[('state','=','closed')], 'required':[('state','=','close')]}"></field>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

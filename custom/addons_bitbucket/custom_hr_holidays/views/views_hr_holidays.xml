@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="edit_holiday_new_updated" model="ir.ui.view">
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='holiday_type']" position="replace">
+                        <field
+                        	name="holiday_type" string="Mode" 
+                        	attrs="{'invisible':[('type', '=', 'remove')], 'readonly':[('state','!=','draft')]}" 
+                            groups="hr_holidays.group_hr_holidays_user,hr_holidays.group_hr_holidays_user,custom_hr_holidays.group_custom_head_of_area"
+                        	context="{'employee_id':employee_id}" />
+                    </xpath>
+                    <xpath expr="//field[@name='payslip_status']" position="replace">
+                        <field name="payslip_status" invisible="1" widget="toggle_button"/>
+                    </xpath>
+
+                    <xpath expr="//field[@name='holiday_status_id']" position="attributes">
+                        <attribute name="options">{'no_open':True, 'no_quick_create': True, 'no_create_edit' : True}</attribute>
+                    </xpath>
+                    <xpath expr="//field[@name='employee_id']" position="attributes">
+                        <attribute name="options">{'no_open':True, 'no_quick_create': True, 'no_create_edit' : True}</attribute>
+                        <attribute name="groups">hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user,custom_hr_holidays.group_custom_head_of_area</attribute>
+                    </xpath>
+                    <xpath expr="//field[@name='department_id']" position="attributes">
+                        <attribute name="readonly">True</attribute>
+                        <attribute name="options">{'no_open':True}</attribute>
+                        <attribute name="groups">hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user,custom_hr_holidays.group_custom_head_of_area</attribute>
+                    </xpath>
+
+                    <field name="notes" position="replace"/>
+                    <xpath expr="//sheet/group/div" position="replace">
+                        <notebook colspan="4">
+                            <page name='notes' string="Notas">
+                                <div name="note1">
+                                    <separator string="Comentarios del empleado" />
+                                    <field name="notes" nolabel="1" colspan="4" placeholder="Agregar un motivo..."/>
+                                </div>
+                                <div name="note2" groups="hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user,custom_hr_holidays.group_custom_head_of_area" attrs="{'invisible':[('state','=','draft')]}">
+                                    <separator string="Comentarios del aprobador"/>
+                                    <field name="report_note" placeholder="e.j. Reportar al mes siguiente..."/>
+                                </div>
+                            </page>
+                        </notebook>
+                    </xpath>
+                    <!-- adjustments -->
+                    <xpath expr="//button[@name='action_refuse']" position="before">
+                        <button string="Aplazar" type="object" name="action_postponed" states="validate1"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record id="edit_holiday_new_head_of_area" model="ir.ui.view">
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
+            <field name="groups_id" eval="[(6, 0, [ref('custom_hr_holidays.group_custom_head_of_area')])]" />
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='employee_id']" position="attributes">
+                        <attribute name="domain">['|',('parent_id.user_id', '=', uid), ('user_id', '=', uid)]</attribute>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record id="edit_holiday_visibility_buttons" model="ir.ui.view">
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//button[@name='action_refuse']" position="attributes">
+                        <attribute name="groups">hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user,custom_hr_holidays.group_custom_head_of_area</attribute>
+                    </xpath>
+                    <xpath expr="//button[@name='action_approve']" position="attributes">
+                        <attribute name="groups">hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user,custom_hr_holidays.group_custom_head_of_area</attribute>
+                    </xpath>
+                    <xpath expr="//button[@name='action_validate']" position="attributes">
+                        <attribute name="groups">hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user,custom_hr_holidays.group_custom_head_of_area</attribute>
+                    </xpath>
+                    <xpath expr="//button[@name='action_postponed']" position="attributes">
+                        <attribute name="groups">hr_holidays.group_hr_holidays_manager,hr_holidays.group_hr_holidays_user,custom_hr_holidays.group_custom_head_of_area</attribute>
+                    </xpath>
+                    <xpath expr="//button[@name='action_draft']" position="attributes">
+                        <attribute name="invisible">1</attribute>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record id="edit_holiday_state_buttons" model="ir.ui.view">
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//button[@name='action_refuse']" position="attributes">
+                        <attribute name="states">confirm,validate1</attribute>
+                    </xpath>
+                    <xpath expr="//button[@name='action_approve']" position="attributes">
+                        <attribute name="states">confirm,delay</attribute>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record id="edit_holiday_new_modoajustes" model="ir.ui.view">
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays.edit_holiday_new"/>
+            <field name="groups_id" eval="[(6, 0, [ref('base.group_system')])]" />
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//button[@name='action_refuse']" position="attributes">
+                        <attribute name="states">confirm,validate,validate1</attribute>
+                    </xpath>
+                    <xpath expr="//button[@name='action_draft']" position="attributes">
+                        <attribute name="invisible">0</attribute>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Vista tree Resumen de Ausencias -->
+        <record id="view_holiday_simple_updated" model="ir.ui.view">
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays.view_holiday_simple"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='number_of_days']" position="replace" />                    
+                    <xpath expr="//field[@name='date_to']" position="after">
+                        <field name="date_return" />
+                        <field name="number_of_days" string="Días Hábiles" sum="Días Hábiles"/>
+                    </xpath>                    
+                    <xpath expr="//field[@name='number_of_days']" position="after">
+                        <field name="number_of_days_calendar" sum="Días Calendario"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Vista tree Peticiones de Asignación, Ausencias por aprobar -->
+        <record id="view_holiday_allocation_tree_updated" model="ir.ui.view">
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays.view_holiday_allocation_tree"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="holiday_type" position="replace"/>
+                    <field name="category_id" position="replace"/>
+
+                    <xpath expr="//field[@name='number_of_days']" position="replace">
+                        <field name="number_of_days" sum="Remaining Days"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Vista tree Informes / Detalles de ausencias -->
+        <record id="view_holiday_employee_updated" model="ir.ui.view">
+            <field name="model">hr.holidays</field>
+            <field name="inherit_id" ref="hr_holidays.view_holiday_employee"/>
+            <field name="arch" type="xml">
+                <data>
+                    <field name="payslip_status" position="replace"/>
+                    <field name="report_note" position="replace"/>
+                </data>
+            </field>
+        </record>
+    </data>
+</odoo>
+

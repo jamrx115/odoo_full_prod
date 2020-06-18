@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<menuitem id="menu_customer_services_main" name="Servicio al Cliente" groups="base.group_user"
+    			  sequence="35" web_icon="custom_customer_service,static/description/icon.png"/>
+
+    	<!-- -->
+    	<menuitem id="menu_pqrs" name="QRS" groups="base.group_user"
+    			  parent="menu_customer_services_main" sequence="1" action="action_list_pqrs"/>
+
+        <menuitem id="menu_configuration" name="Configuración" groups="group_custom_customer_service_admin"
+        		  parent="menu_customer_services_main" sequence="50"/>
+
+    	<!-- -->
+        <menuitem id="menu_process" name="Proceso afectado" groups="group_custom_customer_service_admin"
+        		  parent="menu_configuration" sequence="61" action="action_list_affproc"/>
+
+        <menuitem id="menu_causes" name="Causas identificadas" groups="group_custom_customer_service_admin"
+        		  parent="menu_configuration" sequence="62" action="action_list_causes"/>
+
+        <menuitem id="menu_method" name="Metodología seleccionada" groups="group_custom_customer_service_admin"
+        		  parent="menu_configuration" sequence="63" action="action_list_method"/>
+
+        <menuitem id="menu_entregable" name="Tipos de entregable" groups="group_custom_customer_service_admin"
+        		  parent="menu_configuration" sequence="64" action="action_list_entregable"/>
+
+        <menuitem id="menu_opportunity" name="Oportunidades de mejora" groups="group_custom_customer_service_admin"
+        		  parent="menu_configuration" sequence="65" action="action_list_opportunities"/>
+
+    	<!-- -->
+    </data>
+</odoo>

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_project_employee,hr.project.employee,model_hr_project,base.group_user,1,1,1,1
+access_hr_skills_employee,hr.skills.employee,model_hr_skills,base.group_user,1,1,1,1
+access_hr_project_officer,hr.project.admin,model_hr_project,hr.group_hr_manager,1,1,1,1
+access_hr_skills_officer,hr.skills.admin,model_hr_skills,hr.group_hr_manager,1,1,1,1

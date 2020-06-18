@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<report
+	        id="button_curriculum_vitae"
+	        model="hr.employee"
+	        string="Hoja de Vida"
+            report_type="qweb-pdf"
+	        name="custom_hr_employee.report_curriculum_vitae"
+	        file="custom_hr_employee.report_curriculum_vitae"
+	    />
+
+    	<menuitem id="menu_org_charts"
+    		name="Gráficos"
+    		parent="hr.menu_hr_main"
+    		groups="hr.group_hr_manager,hr.group_hr_user"
+    		sequence="1"/>
+    </data>
+</odoo>

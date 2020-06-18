@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<template id="report_payslip_custom" inherit_id="hr_payroll.report_payslip">
+			<xpath expr="//t[@t-call='web.html_container']" position="replace">
+				<t t-foreach="docs" t-as="o">
+
+					<t t-if="o and 'company_id' in o">
+						<t t-set="company" t-value="o.company_id"></t>
+					</t>
+					<t t-if="not o or not 'company_id' in o">
+						<t t-set="company" t-value="res_company"></t>
+					</t>
+
+					<div class="header">
+						<div style="color: #404040;">
+							<div class="col-xs-8">
+								<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height: 85px;" />
+							</div>
+							<div class="col-xs-4" style="padding-top: 50px;text-align: right;font-weight: bold;">
+								<h4>DESPRENDIBLE DE NÓMINA</h4>
+							</div>
+						</div>
+					</div>
+
+					<t t-call="web.external_layout">
+						<div class="page">
+							
+							<div class="row" style="padding-top:20px;">
+								<div class="col-xs-6">
+									<table class="table table-condensed table-bordered">
+										<colgroup>
+											<col style="width:40%"/>
+											<col style="width:60%"/>
+										</colgroup>
+										<tr>
+											<td><strong>NOMBRE DEL EMPLEADO</strong></td>
+											<td><span t-field="o.employee_id"/></td>
+										</tr>
+										<tr>
+											<td><strong>CÉDULA</strong></td>
+											<td><span t-field="o.employee_id.identification_id"/></td>
+										</tr>
+										<tr>
+											<td><strong>CARGO</strong></td>
+											<td><span t-field="o.employee_id.job_id.name"/></td>
+										</tr>
+										<tr>
+											<td><strong>SALARIO FIJO MENS.</strong></td>
+											<td><span t-field="o.contract_id.wage"/></td>
+										</tr>
+									</table>
+								</div>
+								<div class="col-xs-6">
+									<table class="table table-condensed table-bordered">
+										<colgroup>
+											<col style="width:65%"/>
+											<col style="width:35%"/>
+										</colgroup>
+
+										<t t-set="dias_lab" t-value="o.line_ids.filtered(lambda x: x.code == 'DIASLAB').total"/>
+										<t t-set="dias_inc100" t-value="o.line_ids.filtered(lambda x: x.code == 'DIAS100-INC').total"/>
+										<t t-set="dias_inc66" t-value="o.line_ids.filtered(lambda x: x.code == 'DIAS66').total"/>
+										<t t-set="dias_inc50" t-value="o.line_ids.filtered(lambda x: x.code == 'DIAS50').total"/>
+										<t t-set="dias_inc" t-value="dias_inc100+dias_inc66+dias_inc50"/>
+										<t t-set="dias_vac" t-value="o.line_ids.filtered(lambda x: x.code == 'DIASVAC').total"/>
+										<t t-set="dias_anrm" t-value="o.worked_days_line_ids.filtered(lambda x: x.code == 'ANRM').number_of_days_calendar"/>
+
+										<tr>
+											<td><strong>MES NÓMINA</strong></td>
+											<td><span t-field="o.date_from" t-field-options='{"format": "MMMM"}'/></td>
+										</tr>
+										<tr>
+											<td><strong>DÍAS CALENDARIO LABORADOS</strong></td>
+											<td><span t-esc="'%.2f'% dias_lab"/></td>
+										</tr>
+										<tr>
+											<td><strong>DÍAS CALENDARIO INCAPACIDAD</strong></td>
+											<td><span t-esc="'%.2f'% dias_inc"/></td>
+										</tr>
+										<tr>
+											<td><strong>DÍAS CALENDARIO VACACIONES</strong></td>
+											<td><span t-esc="'%.2f'% dias_vac"/></td>
+										</tr>
+										<tr>
+											<td><strong>DÍAS CALENDARIO NO REMUNERADOS</strong></td>
+											<td><span t-esc="'%.2f'% dias_anrm"/></td>
+										</tr>
+									</table>
+								</div>
+							</div>
+
+							<div class="row" style="padding-top:20px;">
+								<table class="table table-condensed table-bordered">
+									<thead>
+										<tr>
+											<th>Nombre</th>
+											<th>Total</th>
+										</tr>
+									</thead>
+									<tbody>
+										<t t-set="salario_lab" t-value="o.line_ids.filtered(lambda x: x.code == 'SALARIO100').total"/>
+
+										<tr t-foreach="o.line_ids.filtered(lambda line: line.appears_on_payslip)" t-as="line">
+											<t t-if="not line.code.startswith('DIAS') and not line.code=='SUBTOTAL'">
+												<t t-if="line.name.startswith('Total')">
+													<td><b><span t-field="line.name"/></b></td>
+													<td><b><span t-esc="line.total" t-esc-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></b></td>
+												</t>
+												<t t-else="">
+													<t t-if="not line.code=='SALARIOBASE' or (line.code=='SALARIOBASE' and not line.total==salario_lab)">
+														<td><span t-field="line.name"/></td>
+														<td><span t-esc="line.total" t-esc-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}'/></td>
+													</t>
+												</t>
+											</t>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+							<div class="row" style="padding-top:90px;">
+								<div style="display: table; width: 300px;">
+									<div style="display: table-row;">
+										<div style="display: table-cell; border-bottom: 1px solid black;">
+										</div>
+									</div>
+									<div style="display: table-row;">
+										<div style="display: table-cell;">
+											<span><b>FIRMA GERENTE GENERAL</b></span>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</t>
+				</t>
+			</xpath>
+		</template>
+	</data>
+</odoo>

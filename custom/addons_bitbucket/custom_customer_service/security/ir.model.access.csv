@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ccs_user1,custom.claim.user,model_custom_claim,group_custom_customer_service_user,1,1,1,1
+access_ccs_user2,custom.pqrs.user,model_custom_pqrs,group_custom_customer_service_user,1,1,1,1
+access_ccs_user3,custom.pqrs.deliver.user,model_custom_pqrs_deliver,group_custom_customer_service_user,1,0,0,0
+access_ccs_user4,custom.pqrs.affected.process.user,model_custom_pqrs_affected_process,group_custom_customer_service_user,1,0,0,0
+access_ccs_user5,custom.pqrs.causes.process.user,model_custom_pqrs_causes,group_custom_customer_service_user,1,0,0,0
+access_ccs_user6,custom.pqrs.method.process.user,model_custom_pqrs_method,group_custom_customer_service_user,1,0,0,0
+access_ccs_user7,custom.pqrs.opportunity.process.user,model_custom_pqrs_opportunity,group_custom_customer_service_user,1,0,0,0
+
+access_ccs_admin1,custom.claim.boss,model_custom_claim,group_custom_customer_service_admin,1,1,1,1
+access_ccs_admin2,custom.pqrs.boss,model_custom_pqrs,group_custom_customer_service_admin,1,1,1,1
+access_ccs_admin3,custom.pqrs.deliver..boss,model_custom_pqrs_deliver,group_custom_customer_service_admin,1,1,1,1
+access_ccs_admin4,custom.pqrs.affected.process.boss,model_custom_pqrs_affected_process,group_custom_customer_service_admin,1,1,1,1
+access_ccs_admin5,custom.pqrs.causes.boss,model_custom_pqrs_causes,group_custom_customer_service_admin,1,1,1,1
+access_ccs_admin6,custom.pqrs.method.boss,model_custom_pqrs_method,group_custom_customer_service_admin,1,1,1,1
+access_ccs_admin7,custom.pqrs.opportunity.boss,model_custom_pqrs_opportunity,group_custom_customer_service_admin,1,1,1,1

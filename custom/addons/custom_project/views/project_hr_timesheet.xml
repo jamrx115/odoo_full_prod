@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tarea - formulario -->
+        <record id="hr_timesheet_view_task_form2_inherited_updated" model="ir.ui.view">
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='progress']" position="attributes">
+                        <attribute name="string">Cumplimiento del plan</attribute>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Tareas - lista -->
+        <record id="view_task_tree2_inherited_custom" model="ir.ui.view">
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="hr_timesheet.view_task_tree2_inherited"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='progress']" position="replace">
+                        <field name="current_progress" widget="progressbar"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+    </data>
+</odoo>

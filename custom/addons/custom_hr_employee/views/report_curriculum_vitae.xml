@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="report_curriculum_vitae">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="o">				
+				<t t-call="web.external_layout_boxed">
+					<div class="header container">
+						<div class="row" style="text-align:center;">
+							<t t-set="company" t-value="o.company_id" />
+							<div class="column" style="display:inline-block;width:20%;">
+								<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height:89px;width:auto;max-width:89px;"/>
+							</div>
+							<div class="column" style="display:inline-block;width:50%;color:#6186d1;">
+								<b>HOJA DE VIDA</b>
+							</div>
+							<div class="column" style="display:inline-block;width:20%;color:#6186d1;">
+								<small>Página <span class="page"/> de <span class="topage"/></small>
+							</div>
+						</div>
+					</div>
+				</t>
+
+				<t t-call="web.external_layout">
+					<div class="header container">
+						<div class="row" style="text-align:center;">
+							<t t-set="company" t-value="o.company_id" />
+							<div class="column" style="display:inline-block;width:20%;">
+								<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height:89px;width:auto;max-width:89px;"/>
+							</div>
+							<div class="column" style="display:inline-block;width:50%;color:#6186d1;">
+								<b>HOJA DE VIDA</b>
+							</div>
+							<div class="column" style="display:inline-block;width:20%;color:#6186d1;">
+								<small>Página <span class="page"/> de <span class="topage"/></small>
+							</div>
+						</div>
+					</div>
+
+					<div class="page">
+						<h4 style="color:#6186d1;">DATOS PERSONALES</h4>
+						<table class="table table-bordered">
+							<colgroup>
+								<col style="width:66%"/>
+								<col style="width:34%"/>
+							</colgroup>
+							<tr>
+								<th align="center" class="table-primary"><strong><span t-field="o.name"/></strong></th>
+								<th rowspan="5" class="table-light"><img t-if="o.image" t-att-src="'data:image/png;base64,%s' % to_text(o.image)" alt="Foto" style="max-height:236px;width:auto;max-width:177px;display:block;margin-left:auto;margin-right:auto;"></img></th>
+							</tr>
+							<tr>
+								<td><strong>C.C. </strong> <span t-field="o.identification_id"/></td>
+							</tr>
+							<tr>
+								<td><strong>Fecha inicio contrato laboral. </strong> <span t-field="o.joining_date"/></td>
+							</tr>
+							<tr>
+								<td><strong>Dirección.</strong> <span t-field="o.x_address" style="text-transform:uppercase"/></td>
+							</tr>
+							<tr>
+								<td><strong>Fecha Nacimiento.</strong> <span t-field="o.birthday"/></td>
+							</tr>
+							<tr>
+								<td><strong>Email.</strong> <span t-field="o.work_email"/></td>
+							</tr>
+						</table>
+
+						<h4 style="color:#6186d1;">PERFIL PROFESIONAL</h4>
+						<table class="table table-bordered">
+							<tr>
+								<td><span t-field="o.notes"/></td>
+							</tr>
+						</table>
+
+						<t t-if="o.projects_ids">
+							<h4 style="color:#6186d1;">PARTICIPACIÓN EN PROYECTOS</h4>
+
+							<table class="table table-bordered">
+								<colgroup>
+									<col style="width:18%"/>
+									<col style="width:32%"/>
+									<col style="width:18%"/>
+									<col style="width:18%"/>
+									<col style="width:14%"/>
+								</colgroup>
+								<tr>
+									<th>Nombre</th>
+									<th>Descripción</th>
+									<th>Rol Desempeño</th>
+									<th>Cliente</th>
+									<th>Año</th>
+								</tr>
+								<tr t-foreach="o.projects_ids" t-as="p">
+									<td><span t-field="p.name"/></td>
+									<td><span t-field="p.description"/></td>
+									<td><span t-field="p.role"/></td>
+									<td><span t-field="p.customer"/></td>
+									<td><span t-field="p.year"/></td>
+								</tr>
+							</table>
+						</t>
+
+						<h4 style="color:#6186d1;">INFORMACIÓN ACADÉMICA</h4>
+						<table class="table table-bordered" t-foreach="o.academic_ids" t-as="e">
+							<colgroup>
+								<col style="width:30%"/>
+								<col style="width:70%"/>
+							</colgroup>
+							<tr>
+								<th colspan="2"><span t-field="e.name"/></th>
+							</tr>
+							<t t-if="e.diploma">
+								<tr>
+									<td colspan="2" class="table-light"><span t-field="e.diploma"/></td>
+								</tr>
+							</t>
+							<tr>
+								<td>Institución: </td>
+								<td><span t-field="e.location"/></td>
+							</tr>
+							<tr>
+								<td>Fechas: </td>
+								<td><span t-field="e.start_date"/> - <span t-field="e.end_date"/></td>
+							</tr>
+							<t t-if="e.description">
+								<tr>
+									<td colspan="2"><span t-field="e.description"/></td>
+								</tr>
+							</t>
+						</table>
+
+						<h4 style="color:#6186d1;">CERTIFICACIONES</h4>
+						<table class="table table-bordered" t-foreach="o.certification_ids" t-as="e">
+							<colgroup>
+								<col style="width:30%"/>
+								<col style="width:70%"/>
+							</colgroup>
+							<tr>
+								<th colspan="2"><span t-field="e.name"/></th>
+							</tr>
+							<tr>
+								<td>Tipo: </td>
+								<td><span t-field="e.type_cert_id"/></td>
+							</tr>
+							<tr>
+								<td>Fecha(s): </td>
+								<td><span t-field="e.start_date"/><span t-if="e.expire"> - <span t-field="e.end_date"/></span></td>
+							</tr>
+						</table>
+
+						<t t-if="o.skills_ids">
+							<h4 style="color:#6186d1;">HERRAMIENTAS DE TRABAJO</h4>						
+							<table class="table table-bordered">
+								<colgroup>
+									<col style="width:60%"/>
+									<col style="width:40%"/>
+								</colgroup>
+								<tr>
+									<th>Habilidad / Herramienta</th>
+									<th>Nivel</th>
+								</tr>
+								<tr t-foreach="o.skills_ids" t-as="s">
+									<td><span t-field="s.name"/></td>
+									<td><span t-field="s.level"/></td>
+								</tr>
+							</table>
+						</t>
+
+						<h4 style="color:#6186d1;">EXPERIENCIA LABORAL</h4>
+						<table class="table table-bordered" t-foreach="o.experience_ids" t-as="e">
+							<colgroup>
+								<col style="width:30%"/>
+								<col style="width:70%"/>
+							</colgroup>
+							<tr>
+								<th colspan="2">Empresa: <span t-field="e.location"/></th>
+							</tr>
+							<tr>
+								<td>Cargo: </td>
+								<td><span t-field="e.name"/></td>
+							</tr>
+							<tr>
+								<td>Fechas: </td>
+								<td><span t-field="e.start_date"/> - <span t-field="e.end_date"/></td>
+							</tr>
+							<t t-if="e.description">
+								<tr>
+									<td colspan="2"><span t-field="e.description"/></td>
+								</tr>
+							</t>
+						</table>
+
+						<small>Fin de documento plataforma ERP - alltic - <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>  </small>
+					</div>
+				</t>
+			</t>
+		</t>
+	</template>
+</odoo>

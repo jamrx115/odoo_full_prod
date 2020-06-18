@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- ************ Casos seguridad y salud / Seguimiento de casos************ -->
+
+
+		<!-- vista lista -->
+		<record id="medicalmonitor_view_tree" model="ir.ui.view">
+			<field name="model">custom.medical.monitor</field>
+			<field name="arch" type="xml">
+				<tree decoration-info="state== 'draft'" decoration-muted="state== 'reviewed'">
+					<field name="id" string="Id del caso"></field>
+					<field name="employee_id" string="Nombre del colaborador"></field>
+					<field name="event_type"></field>
+					<field name="state"></field>
+				</tree>
+			</field>
+		</record>
+
+		<!-- vista formulario -->
+		<record id="medicalmonitor_view_form" model="ir.ui.view">
+			<field name="model">custom.medical.monitor</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button string="Iniciar Proceso" name="action_process" states="draft" type="object" class="oe_highlight"/><!-- draft to process -->
+						<button string="Finalizar " name="action_finalized" states="process" type="object" class="oe_highlight"/><!-- process to finalized -->
+						<button string="Resolver" name="action_solved" states="finalized" type="object" class="oe_highlight"/><!-- finalized to solved -->
+						<button string="Revisar" name="action_reviewed" states="solved" type="object" class="oe_highlight"/><!-- solved to reviewed -->
+
+						<field name="state" widget="statusbar"/>
+					</header>
+					<sheet>
+						<separator string="Investigación de casos de seguridad y salud"/>
+						<group>
+							<group>
+								<field name="event_type" required="1"/>
+								<field name="severity" attrs="{'invisible':[('event_type','!=','accidente')], 'required':[('event_type','=','accidente')]}"/>
+							</group>
+							<group class="oe_read_only">
+								<field name="write_date" string="Fecha diligenciamiento"/>
+								<field name="id" string="Id del caso"/>
+							</group>
+						</group>
+
+						<separator string="Seguimiento a casos médicos con recomendación o restricción"/>
+						<separator string="Datos personales" style="font-size: 1.4em;"/>
+						<group>
+							<field name="employee_id" required="1" options='{"no_open": True, "no_create": True}'/>
+						</group>
+						<group class="oe_read_only">
+							<group>
+								<field name="date_birth"/>
+								<field name="place_str"/>
+								<field name="id_str"/>
+							</group>
+							<group>
+								<field name="gender_str"/>
+								<field name="cel_str"/>
+								<field name="tel_str"/>
+							</group>
+						</group>
+
+						<separator string="Informacion ocupacional actual" style="font-size: 1.4em;" class="oe_read_only"/>
+						<group class="oe_read_only">
+							<group>
+								<field name="job_str"/>
+								<field name="worked_time_str"/>
+								<field name="usual_posture_str"/>
+								<field name="des_dep_id"/>
+							</group>
+							<group>
+								<field name="job_analisys_bool"/>
+								<field name="elem_str"/>
+								<field name="tools_equipment"/>
+							</group>
+						</group>
+
+						<notebook name="notebook">
+							<page col="4" name="process" string="Información Médica" attrs="{'invisible':[('state','=','draft')]}">
+								<group name="main" string="Datos principales">
+									<group>
+										<field name="diagnosis_str"/>
+									</group>
+									<group>
+										<field name="diagnosis_date"/>
+										<field name="origin_str"/>
+										<field name="classification_str"/>
+									</group>
+								</group>
+
+								<group string="Caso por información de" >
+									<field name="docs_info" context="{'default_case_id': active_id}" nolabel="1">
+										<tree>
+											<field name="entity"/>
+											<field name="professional_name"/>
+											<field name="professional_job"/>
+											<field name="date"/>
+										</tree>
+										<form>
+											<group name="main">
+												<field name="entity"/>
+												<field name="professional_name"/>
+												<field name="professional_job"/>
+												<field name="date"/>
+											</group>
+										</form>
+									</field>
+								</group>
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+						<field name="message_ids" widget="mail_thread"/>
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<!-- acciones -->
+		<record id="medicalmonitor_sst_action" model="ir.actions.act_window">
+			<field name="name">Seguimiento de casos medicos </field>
+			<field name="res_model">custom.medical.monitor</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+      <record id="knowledge_email_template_boss" model="mail.template">
+        <field name="name">Plantilla visto bueno jefe</field>
+        <field name="email_from"></field>
+        <field name="subject">Solicitud de capacitación</field>
+        <field name="email_to"></field>
+        <field name="email_cc"></field>
+        <field name="model_id" ref="custom_knowledge.model_custom_knowledge"/>
+        <field name="auto_delete" eval="True"/>
+        <field name="user_signature" eval="True"/>
+        <field name="body_html">
+            <![CDATA[                  
+          ]]>
+        </field>
+      </record>
+      
+      <record id="knowledge_email_template_human_services" model="mail.template">
+        <field name="name">Plantilla para talento humano</field>
+        <field name="email_from"></field>
+        <field name="subject"></field>
+        <field name="email_to"></field>
+        <field name="email_cc"></field>
+        <field name="model_id" ref="custom_knowledge.model_custom_knowledge"/>
+        <field name="auto_delete" eval="True"/>
+        <field name="user_signature" eval="True"/>
+        <field name="body_html">
+          <![CDATA[          
+          ]]>
+        </field>
+      </record>
+
+      <record id="knowledge_email_template_management" model="mail.template">
+        <field name="name">Plantilla para alta gerencia</field>
+        <field name="email_from"></field>
+        <field name="subject">Solicitud de aprobación</field>
+        <field name="email_to"></field>
+        <field name="email_cc"></field>
+        <field name="model_id" ref="custom_knowledge.model_custom_knowledge"/>
+        <field name="auto_delete" eval="True"/>
+        <field name="user_signature" eval="False"/>
+        <field name="body_html">
+          <![CDATA[
+          ]]>
+        </field>
+      </record>
+
+      <record id="knowledge_email_template_approved" model="mail.template">
+        <field name="name">Plantilla para la aprobación</field>
+        <field name="email_from"></field>
+        <field name="subject">Solicitud aprobada</field>
+        <field name="email_to"></field>
+        <field name="email_cc"></field>
+        <field name="model_id" ref="custom_knowledge.model_custom_knowledge"/>
+        <field name="auto_delete" eval="True"/>
+        <field name="user_signature" eval="True"/>
+        <field name="body_html">
+          <![CDATA[                             
+          ]]>
+        </field>
+      </record>
+
+      <record id="knowledge_email_template_rejected" model="mail.template">
+        <field name="name">Plantilla para el rechazo</field>
+        <field name="email_from"></field>
+        <field name="subject">Solicitud rechazada</field>
+        <field name="email_to"></field>
+        <field name="email_cc"></field>
+        <field name="model_id" ref="custom_knowledge.model_custom_knowledge"/>
+        <field name="auto_delete" eval="True"/>
+        <field name="user_signature" eval="True"/>
+        <field name="body_html">
+          <![CDATA[
+          ]]>
+        </field>
+      </record>
+
+      <record id="knowledge_email_template_deferment" model="mail.template">
+        <field name="name">Plantilla para aplazar</field>
+        <field name="email_from"></field>
+        <field name="subject">Solicitud aplazada</field>
+        <field name="email_to"></field>
+        <field name="email_cc"></field>
+        <field name="model_id" ref="custom_knowledge.model_custom_knowledge"/>
+        <field name="auto_delete" eval="True"/>
+        <field name="user_signature" eval="True"/>
+        <field name="body_html">
+          <![CDATA[
+          ]]>
+        </field>
+      </record>
+
+      <record id="knowledge_email_template_documents" model="mail.template">
+        <field name="name">Plantilla para solicitar documentos de capacitaciones</field>
+        <field name="email_from"></field>
+        <field name="subject">Actualización de información académica/cursos</field>
+        <field name="email_to"></field>
+        <field name="email_cc"></field>
+        <field name="model_id" ref="custom_knowledge.model_custom_knowledge"/>
+        <field name="auto_delete" eval="True"/>
+        <field name="user_signature" eval="False"/>
+        <field name="body_html">
+          <![CDATA[
+          ]]>
+        </field>
+      </record>
+    </data>
+</odoo>

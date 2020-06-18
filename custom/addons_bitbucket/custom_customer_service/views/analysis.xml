@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<!-- Tipos de entregable -->
+        <record id="entregable_view_tree" model="ir.ui.view">
+            <field name="model">custom.pqrs.deliver</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="entregable_view_form" model="ir.ui.view">
+            <field name="model">custom.pqrs.deliver</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"></field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_list_entregable">
+            <field name="name">Tipos de entregable</field>
+            <field name="res_model">custom.pqrs.deliver</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Proceso afectado -->
+        <record id="affproc_view_tree" model="ir.ui.view">
+            <field name="model">custom.pqrs.affected.process</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="affproc_view_form" model="ir.ui.view">
+            <field name="model">custom.pqrs.affected.process</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"></field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_list_affproc">
+            <field name="name">Procesos afectados</field>
+            <field name="res_model">custom.pqrs.affected.process</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Causas identificadas -->
+        <record id="causes_view_tree" model="ir.ui.view">
+            <field name="model">custom.pqrs.causes</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="causes_view_form" model="ir.ui.view">
+            <field name="model">custom.pqrs.causes</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"></field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_list_causes">
+            <field name="name">Causas identificadas</field>
+            <field name="res_model">custom.pqrs.causes</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Metodología seleccionada -->
+        <record id="method_view_tree" model="ir.ui.view">
+            <field name="model">custom.pqrs.method</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="method_view_form" model="ir.ui.view">
+            <field name="model">custom.pqrs.method</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"></field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_list_method">
+            <field name="name">Metodologías seleccionadas</field>
+            <field name="res_model">custom.pqrs.method</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Oportunidades de mejora -->
+        <record id="opportunities_view_tree" model="ir.ui.view">
+            <field name="model">custom.pqrs.opportunity</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="opportunities_view_form" model="ir.ui.view">
+            <field name="model">custom.pqrs.opportunity</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"></field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_list_opportunities">
+            <field name="name">Oportunidades de mejora</field>
+            <field name="res_model">custom.pqrs.opportunity</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

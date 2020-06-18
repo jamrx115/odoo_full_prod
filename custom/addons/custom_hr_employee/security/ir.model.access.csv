@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_project_employee,hr.project.employee,model_hr_project,base.group_user,1,1,1,1
+access_hr_skills_employee,hr.skills.employee,model_hr_skills,base.group_user,1,1,1,1
+access_hr_project_officer,hr.project.admin,model_hr_project,hr.group_hr_manager,1,1,1,1
+access_hr_skills_officer,hr.skills.admin,model_hr_skills,hr.group_hr_manager,1,1,1,1
+
+access_hr_payroll_structure_widget,hr.payroll.structure.employee,hr_payroll.model_hr_payroll_structure,base.group_user,1,0,0,0
+access_hr_contribution_register_widget,hr.contribution.register.employee,hr_payroll.model_hr_contribution_register,base.group_user,1,0,0,0
+access_hr_salary_rule_category_widget,hr.salary.rule.category.employee,hr_payroll.model_hr_salary_rule_category,base.group_user,1,0,0,0
+access_hr_payslip_widget,hr.payroll.employee,hr_payroll.model_hr_payslip,base.group_user,1,0,0,0
+access_hr_payslip_line_widget,hr.payroll.line.employee,hr_payroll.model_hr_payslip_line,base.group_user,1,0,0,0
+access_hr_salary_rule_user_widget,hr.salary.rule.user.employee,hr_payroll.model_hr_salary_rule,base.group_user,1,0,0,0
+access_hr_payslip_worked_days_widget,hr.payslip.worked_days.employee,hr_payroll.model_hr_payslip_worked_days,base.group_user,1,0,0,0
+
+access_hr_contract_employee_widget,hr.contract.employee,hr_contract.model_hr_contract,base.group_user,1,0,0,0

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- ************ Proyectos / Actas de proyectos ************ -->
+        <!-- vista lista -->
+        <record id="project_act_view_tree" model="ir.ui.view">
+            <field name="model">custom.project.act</field>
+            <field name="arch" type="xml">
+                <tree decoration-info="state== 'draft'" decoration-muted="state== 'closed'">
+                    <field name="date"/>
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- vista formulario -->
+        <record id="project_act_view_form" model="ir.ui.view">
+            <field name="model">custom.project.act</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="Asignar tareas" name="action_start" states="draft" type="object" class="oe_highlight"/>
+                        <button string="Finalizar acta" name="action_end" states="created" type="object" class="created"/>
+
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <separator string="Acta de reunión"/>
+                        <group>
+                            <!-- der -->
+                            <group class="oe_read_only">
+                                <field name="create_date"/>
+                                <field name="name"/>
+                                <field name="project_id" invisible="1"/>
+                            </group>
+                            <!-- izq -->
+                            <group>
+                                <field name="date" required="1" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            </group>
+                        </group>
+                        <notebook name="notebook">
+                            <page name="created" string="Asistentes">
+                                <group>
+                                    <field name="partner_ids" attrs="{'readonly':[('state','=','closed')]}">
+                                        <tree>
+                                            <field name="name"/>
+                                            <field name="email"/>
+                                            <field name="function"/>
+                                        </tree>
+                                    </field>
+                                    <field name="details" required="1" attrs="{'readonly':[('state','=','closed')]}"/>
+                                </group>
+                            </page>
+                            <page name="tasks" string="Tareas" attrs="{'invisible':[('state','=','draft')]}">
+                                <group>
+                                    <field name="task_ids" context="{'default_project_id': project_id}" attrs="{'readonly':[('state','=','closed')]}">
+                                        <tree>
+                                            <field name="id" string="Código de tarea"/>
+                                            <field name="name"/>
+                                            <field name="current_progress"/>
+                                            <field name="write_date"/>
+                                        </tree>
+                                    </field>
+                                    <field name="conclusion" attrs="{'readonly':[('state','=','closed')]}"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- acción -->
+        <record id="action_list_project_act" model="ir.actions.act_window">
+            <field name="name">Actas de proyectos</field>
+            <field name="res_model">custom.project.act</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{
+                'search_default_project_id': [active_id],
+                'default_project_id': active_id,
+            }
+            </field>
+            <field name="help">Un acta de reunión sirve para ...</field>
+        </record>
+
+        <!-- ************ Proyectos ************ -->
+        <!-- vista kanban -->
+        <record id="project_view_project_kanban_act_custom" model="ir.ui.view">
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//div[hasclass('o_kanban_card_manage_section')]" position="inside">
+                        <div>
+                            <a name="%(action_list_project_act)d" type="action">
+                                Actas de reuniones
+                            </a>
+                        </div>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+    </data>
+</odoo>

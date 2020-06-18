@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- ... CREACIÓN DE GRUPO DE ACCESO ...-->
+        <record id="group_custom_head_of_area" model="res.groups">
+            <field name="name">Jefe Departamento</field>
+            <field name="category_id" ref="base.module_category_hr_holidays"/>
+        </record>
+	</data>
+</odoo>

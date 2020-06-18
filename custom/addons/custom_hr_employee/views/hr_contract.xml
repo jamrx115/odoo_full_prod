@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<!-- Tipos de novedades contrato -->
+    	<record id="tiponovedad_view_tree" model="ir.ui.view">
+    		<field name="model">custom.tipo.novedad.contrato</field>
+    		<field name="arch" type="xml">
+    			<tree default_order='name'>
+    				<field name="name"></field>
+    			</tree>
+    		</field>
+    	</record>
+
+    	<record id="tiponovedad_view_form" model="ir.ui.view">
+    		<field name="model">custom.tipo.novedad.contrato</field>
+    		<field name="arch" type="xml">
+    			<form>
+    				<group>
+    					<field name="name"></field>
+    				</group>
+    			</form>
+    		</field>
+    	</record>
+
+    	<record model="ir.actions.act_window" id="action_list_tiponovedad">
+    		<field name="name">Tipo novedad contrato</field>
+    		<field name="res_model">custom.tipo.novedad.contrato</field>
+    		<field name="view_mode">tree,form</field>
+    	</record>
+
+    	<menuitem id="menu_tiponovedad" name="Tipo novedad contrato" parent="hr.menu_human_resources_configuration" sequence="3" action="action_list_tiponovedad"/>
+
+		<!-- Contrato -->
+		<record id="hr_contract_viewform_header" model="ir.ui.view">
+			<field name="model">hr.contract</field>
+			<field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='company_id']" position="replace"/>
+				<xpath expr="//field[@name='job_id']" position="after">
+					<field name="company_id"/>
+				</xpath>
+				<xpath expr="//field[@name='struct_id']" position="after">
+					<field name="resource_calendar_id"/>
+					<field name="schedule_pay"/>
+				</xpath>
+				<xpath expr="//div[@class='oe_title']" position="replace">
+					<div name="title">
+                    	<div style="float: left; width: 50%;" class="oe_edit_only">
+                    		<h1>
+	                            <field name="x_numero_contrato" placeholder="Contrato físico"/>
+	                        </h1>
+                    	</div>
+                    	<div style="float: left; width: 50%;">
+                    		<h1>
+	                            <field name="name" placeholder="Nombre público contrato"/>
+	                        </h1>
+                    	</div>
+                    </div>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="hr_contract_viewform_wage" model="ir.ui.view">
+			<field name="model">hr.contract</field>
+			<field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+			<field name="arch" type="xml">				
+				<xpath expr="//group[@name='salary_and_advantages']" position="replace">
+					<group name="salary_and_advantages" string="Ingresos laborales">
+                        <label for="wage"/>
+                        <div class="o_row" name="wage">
+                            <field name="wage" nolabel="1"/>
+                            <span>/ mes</span>
+                        </div>
+                        <label for="x_bonificacion"/>
+                        <div class="o_row" name="x_bonificacion">
+                            <field name="x_bonificacion" nolabel="1" widget='monetary'/>
+                            <span>/ mes</span>
+                        </div>
+                        <label for="x_comision"/>
+                        <div class="o_row" name="x_comision">
+                            <field name="x_comision" nolabel="1" widget='monetary'/>
+                            <span>/ mes</span>
+                        </div>
+                    </group>
+				</xpath>
+				<xpath expr="//group[@name='main_info']" position="inside">
+					<group name="advantages" string="Deducciones">
+						<field name="x_medic_pre" string="Servicios médicos"/>
+						<field name="x_medic_prep" nolabel="1" widget='monetary'
+							   attrs="{'invisible':[('x_medic_pre', '==', False)]}"/>
+						<field name="x_pensi_volu" string="Pensiones voluntarias"/>
+						<field name="x_pensi_volun" nolabel="1" widget='monetary'
+							   attrs="{'invisible':[('x_pensi_volu', '==', False)]}"/>
+						<field name="x_seguros" widget='monetary'/>
+					</group>
+				</xpath>				
+			</field>
+		</record>
+
+		<record id="hr_contract_viewform_otherinfo" model="ir.ui.view">
+			<field name="model">hr.contract</field>
+			<field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+			<field name="arch" type="xml">				
+				<xpath expr="//group[@name='duration_group']" position="replace">
+					<group name="duration_group_st" string="Términos de inicio">
+						<field name="date_start"/>
+						<field name="x_tipo_novedad_contrato_id" string="Novedad administrativa"/>
+						<field name="trial_date_end"/>
+					</group>
+					<group name="duration_group_fn" string="Términos de culminación">
+						<field name="date_end"/>
+						<field name="x_tipo_novedad_cierre_contrato_id" string="Novedad administrativa"/>
+					</group>
+				</xpath>
+				<xpath expr="//group[@name='duration_group_fn']" position="after">
+					<group name="advantages" string="Días descanso anual">
+						<field name="x_annual_holiday" string="Vacaciones"/>
+						<field name="x_annual_familydays" string="Días familiares"/>
+					</group>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="hr_contract_viewform_pagertefte" model="ir.ui.view">
+			<field name="model">hr.contract</field>
+			<field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//page[@name='information']" position="after">
+					<page string="Retención en la fuente" name="otros_rtefte">
+						<group name="ingr_noc_renta"
+							   string="Ingresos no constitutivos de renta">
+							<field name="x_viat_ocasi"  widget='monetary'/>
+						</group>
+						<group name="rentas_exentas" col="4"
+							   string="Rentas exentas">
+							<field name="x_ahorros_afc" widget='monetary'/>
+							<field name="x_rentrab_ex"  widget='monetary'/>
+						</group>
+						<group name="deducciones" col="4"
+							   string="Deducciones">
+							<field name="x_pagos_alim"  widget='monetary'/>
+							<field name="x_int_viviend" widget='monetary'/>
+							<field name="x_polizas_seg" widget='monetary'/>
+						</group>
+					</page>
+				</xpath>
+			</field>
+		</record>
+
+    	<record id="hr_contract_viewtree_updated" model="ir.ui.view">
+    		<field name="model">hr.contract</field>
+    		<field name="inherit_id" ref="hr_contract.hr_contract_view_tree"/>
+    		<field name="arch" type="xml">
+    			<xpath expr="//field[@name='date_start']" position="replace"/>
+    			<xpath expr="//field[@name='date_end']" position="replace"/>
+    			<xpath expr="//field[@name='resource_calendar_id']" position="replace"/>
+    			<xpath expr="//field[@name='job_id']" position="replace"/>
+
+    			<xpath expr="//field[@name='name']" position="replace">
+    				<field name="name" string="Nombre público contrato"/>
+    			</xpath>
+    			<xpath expr="//field[@name='employee_id']" position="after">
+    				<field name="date_start" />
+    				<field name="x_tipo_novedad_contrato_id" />
+    				<field name="date_end" />
+    				<field name="x_tipo_novedad_cierre_contrato_id" />
+    			</xpath>
+    			<xpath expr="//field[@name='type_id']" position="before">
+    				<field name="state" />
+    			</xpath>
+    		</field>
+    	</record>
+
+		<record id="hr_hr_employee_view_form2_updated" model="ir.ui.view">
+			<field name="model">hr.employee</field>
+			<field name="inherit_id" ref="hr_contract.hr_hr_employee_view_form2"/>
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr="//button[@name='%(hr_contract.act_hr_employee_2_hr_contract)d']" position="attributes">
+						<attribute name="groups">base.group_user</attribute>
+					</xpath>
+				</data>
+			</field>
+		</record>
+
+		<record id="hr_contract_view_kanban_updated" model="ir.ui.view">
+			<field name="model">hr.contract</field>
+			<field name="inherit_id" ref="hr_contract.hr_contract_view_kanban"/>
+			<field name="arch" type="xml">				
+				<xpath expr="//div[@class='oe_kanban_content']" position="replace">
+					<div class="oe_kanban_content">
+						<div>
+							<strong class="o_kanban_record_title"><field name="name"/></strong>
+						</div>
+						<div class="o_kanban_record_subtitle">
+							<field name="employee_id"/>
+						</div>
+						<div class="o_kanban_record_subtitle">
+							<field name="job_id"/>
+						</div>
+						<div class="oe_kanban_bottom_right">
+							<img t-att-src="kanban_image('hr.employee', 'image_medium', record.employee_id.raw_value)" t-att-title="record.employee_id.value" width="24" height="24" class="oe_kanban_avatar pull-right"/>
+						</div>
+					</div>
+				</xpath>
+			</field>
+		</record>
+    </data>
+</odoo>

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<!-- PQRS -->
+    	<record id="pqrs_view_tree" model="ir.ui.view">
+    		<field name="model">custom.pqrs</field>
+    		<field name="arch" type="xml">
+    			<tree>
+                    <field name="id" string="Código seguimiento"></field>
+                    <field name="type_id"></field>
+                    <field name="source_id"></field>
+                    <field name="date"></field>
+                    <field name="name"></field>
+    				<field name="customer_id"></field>
+    				<field name="project_id"></field>
+    				<field name="employee_id"></field>
+                    <field name="state"></field>
+    			</tree>
+    		</field>
+    	</record>
+
+    	<record id="pqrs_view_form" model="ir.ui.view">
+    		<field name="model">custom.pqrs</field>
+    		<field name="arch" type="xml">
+    			<form>
+                    <header>
+                        <button string="Iniciar análisis" name="action_new" states="draft" type="object" class="oe_highlight"/><!-- draft to analysis -->
+                        <button string="Solución" name="action_analysis" states="analysis" type="object" class="oe_highlight"/><!-- analysis to answered -->
+                        <button string="Seguimiento" name="action_answered" states="answered" type="object" class="oe_highlight"/> <!-- answered to confirmed -->
+                        <button string="Verificación" name="action_confirmed" states="confirmed" type="object" class="oe_highlight"/> <!-- confirmed to close -->
+                        <button string="Cerrar" name="action_closed" states="close" type="object" class="oe_highlight"/> <!-- close to closed -->
+
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <separator string="Datos generales" />
+                        <group class="oe_read_only">
+                            <field name="id" string="Código seguimiento"/>
+                        </group>
+                        <group col="4">
+
+                            <field name="type_id" options="{'no_create_edit': True}" attrs="{'readonly':['|', ('state','=','answered'), '|', ('state','=','confirmed'), '|', ('state','=','close'), ('state','=','closed')], 'required':[('state','=','analysis')]}"></field>
+                            <field name="source_id" options="{'no_create_edit': True}" attrs="{'readonly':['|', ('state','=','answered'), '|', ('state','=','confirmed'), '|', ('state','=','close'), ('state','=','closed')], 'required':[('state','=','analysis')]}"></field>                      <field name="date" required="1" attrs="{'readonly':[('state','!=','draft')]}"></field>
+
+                            
+
+                        </group>
+                        <group>
+                            <field name="name" required="1" string="Título" attrs="{'readonly':[('state','!=','draft')]}"></field>
+                            <field name="description" attrs="{'readonly':[('state','=','closed')]}"></field>
+                        </group>
+                        <group>
+                            <field name="employee_id" required="1" options='{"no_open": True, "no_create": True}' string="Colaborador a cargo" attrs="{'readonly':[('state','=','closed')]}"></field>
+                        </group>
+
+                        <separator string="Proyecto"/>
+                        <group>
+                            <field name="customer_id" required="1" options='{"no_open": True, "no_create": True}' attrs="{'readonly':[('state','!=','draft')]}"></field>
+                            <field name="project_id" attrs="{'readonly':['|', ('customer_id','=',False), ('state','!=','draft')], 'required':[('customer_id','!=',False)]}" options='{"no_open": True, "no_create": True}'></field>
+                            <field name="contact_id" attrs="{'readonly':['|', ('customer_id','=',False), ('state','!=','draft')], 'required':[('customer_id','!=',False)]}" options='{"no_open": True, "no_create": True}'></field>
+                        </group>
+                        <notebook name="notebook"></notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+    			</form>
+    		</field>
+    	</record>
+
+    	<record id="action_list_pqrs" model="ir.actions.act_window">
+    		<field name="name">Registros de control</field>
+    		<field name="res_model">custom.pqrs</field>
+    		<field name="view_mode">tree,form</field>
+    	</record>
+
+        <!-- Tipo -->
+        <record id="type_view_tree" model="ir.ui.view">
+            <field name="model">custom.pqrs.type</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="type_view_form" model="ir.ui.view">
+            <field name="model">custom.pqrs.type</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"></field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_list_type">
+            <field name="name">Tipo</field>
+            <field name="res_model">custom.pqrs.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Pulse para crear tipos</p>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_list_type_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="type_view_tree"/>
+            <field name="act_window_id" ref="action_list_type"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_list_type_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="type_view_form"/>
+            <field name="act_window_id" ref="action_list_type"/>
+        </record>
+
+        <!-- Fuente -->
+        <record id="source_view_tree" model="ir.ui.view">
+            <field name="model">custom.pqrs.source</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="source_view_form" model="ir.ui.view">
+            <field name="model">custom.pqrs.source</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"></field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_list_source">
+            <field name="name">Fuente</field>
+            <field name="res_model">custom.pqrs.source</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Pulse para crear fuentes</p>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_list_source_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="source_view_tree"/>
+            <field name="act_window_id" ref="action_list_source"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_list_source_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="source_view_form"/>
+            <field name="act_window_id" ref="action_list_source"/>
+        </record>
+
+        
+
+        <!-- Tipo de respuesta -->
+                    <record id="type_answer_view_tree" model="ir.ui.view">
+                    <field name="model">custom.pqrs.type.answer</field>
+                    <field name="arch" type="xml">
+                        <tree>
+                            <field name="name"></field>
+                        </tree>
+                    </field>
+                </record>
+
+                <record id="type_answer_view_form" model="ir.ui.view">
+                    <field name="model">custom.pqrs.type.answer</field>
+                    <field name="arch" type="xml">
+                        <form>
+                            <sheet>
+                                <group>
+                                    <field name="name" required="1"></field>
+                                </group>
+                            </sheet>
+                            <div class="oe_chatter">
+                                <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                                <field name="message_ids" widget="mail_thread"/>
+                            </div>
+                        </form>
+                    </field>
+                </record>
+
+                <record model="ir.actions.act_window" id="action_list_type_answer">
+                    <field name="name">Tipo de respuesta</field>
+                    <field name="res_model">custom.pqrs.type.answer</field>
+                    <field name="view_mode">tree,form</field>
+                    <field name="help" type="html">
+                        <p class="oe_view_nocontent_create">Pulse para crear tipo de respuestas</p>
+                    </field>
+                </record>
+
+                <record model="ir.actions.act_window.view" id="action_list_type_answer_tree">
+                    <field name="sequence" eval="1"/>
+                    <field name="view_mode">tree</field>
+                    <field name="view_id" ref="type_answer_view_tree"/>
+                    <field name="act_window_id" ref="action_list_type_answer"/>
+                </record>
+
+                <record model="ir.actions.act_window.view" id="action_list_type_answer_form">
+                    <field name="sequence" eval="2"/>
+                    <field name="view_mode">form</field>
+                    <field name="view_id" ref="type_answer_view_form"/>
+                    <field name="act_window_id" ref="action_list_type_answer"/>
+                </record>
+
+        
+    </data>
+</odoo>

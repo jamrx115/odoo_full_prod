@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<!-- PQRS -->
+    	<record id="pqrs_view_tree" model="ir.ui.view">
+    		<field name="model">custom.pqrs</field>
+    		<field name="arch" type="xml">
+    			<tree>
+                    <field name="date"></field>
+                    <field name="id" string="Código seguimiento"></field>
+                    <field name="name"></field>
+    				<field name="type_sel"></field>
+    				<field name="customer_id"></field>
+    				<field name="project_id"></field>
+    				<field name="employee_id"></field>
+                    <field name="state"></field>
+    			</tree>
+    		</field>
+    	</record>
+
+    	<record id="pqrs_view_form" model="ir.ui.view">
+    		<field name="model">custom.pqrs</field>
+    		<field name="arch" type="xml">
+    			<form>
+                    <header>
+                        <button string="Iniciar análisis" name="action_new" states="draft" type="object" class="oe_highlight"/><!-- draft to analysis -->
+                        <button string="Responder a cliente" name="action_analysis" states="analysis" type="object" class="oe_highlight"/><!-- analysis to answered -->
+                        <button string="Validar solución" name="action_answered" states="answered" type="object" class="oe_highlight"/> <!-- answered to confirmed -->
+                        <button string="Iniciar cierre" name="action_confirmed" states="confirmed" type="object" class="oe_highlight"/> <!-- confirmed to close -->
+                        <button string="Cerrar" name="action_closed" states="close" type="object" class="oe_highlight"/> <!-- close to closed -->
+
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <separator string="Datos generales" />
+                        <group class="oe_read_only">
+                            <field name="id" string="Código seguimiento"/>
+                        </group>
+                        <group col="4">
+                            <field name="type_sel" required="1" attrs="{'readonly':[('state','!=','draft')]}"></field>
+                            <field name="date" required="1" attrs="{'readonly':[('state','!=','draft')]}"></field>
+                        </group>
+                        <group>
+                            <field name="name" required="1" string="Título" attrs="{'readonly':[('state','!=','draft')]}"></field>
+                            <field name="description" attrs="{'readonly':[('state','=','closed')]}"></field>
+                        </group>
+                        <group>
+                            <field name="employee_id" required="1" options='{"no_open": True, "no_create": True}' string="Empleado a cargo" attrs="{'readonly':[('state','=','closed')]}"></field>
+                        </group>
+
+                        <separator string="Proyecto"/>
+                        <group>
+                            <field name="customer_id" required="1" options='{"no_open": True, "no_create": True}' attrs="{'readonly':[('state','!=','draft')]}"></field>
+                            <field name="project_id" attrs="{'readonly':['|', ('customer_id','=',False), ('state','!=','draft')], 'required':[('customer_id','!=',False)]}" options='{"no_open": True, "no_create": True}'></field>
+                            <field name="contact_id" attrs="{'readonly':['|', ('customer_id','=',False), ('state','!=','draft')], 'required':[('customer_id','!=',False)]}" options='{"no_open": True, "no_create": True}'></field>
+                        </group>
+                        <notebook name="notebook"></notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+    			</form>
+    		</field>
+    	</record>
+
+    	<record id="action_list_pqrs" model="ir.actions.act_window">
+    		<field name="name">QRS</field>
+    		<field name="res_model">custom.pqrs</field>
+    		<field name="view_mode">tree,form</field>
+    	</record>
+    </data>
+</odoo>

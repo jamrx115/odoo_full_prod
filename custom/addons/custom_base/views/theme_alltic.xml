@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="alltic_layout" inherit_id="web.layout" name="alltic_layout">
+    <xpath expr="//head//link" position="after">
+      <link rel="shortcut icon" href="custom_base/static/favicon.ico" type="image/x-icon"/>
+    </xpath>
+  </template>
+</odoo>

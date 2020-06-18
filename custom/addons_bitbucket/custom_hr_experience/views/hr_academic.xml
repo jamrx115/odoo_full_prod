@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Experiencia Académica / Menú-->
+        <record id="view_academic_tree_updated" model="ir.ui.view">
+            <field name="model">hr.academic</field>
+            <field name="inherit_id" ref="hr_experience.view_academic_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="replace"/>
+                <xpath expr="//field[@name='employee_id']" position="after">
+                    <field name="name" string="Título"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="replace">
+                    <field name="location" string="Institución"/>
+                </xpath>
+                <xpath expr="//field[@name='diploma']" position="replace"/>
+                <xpath expr="//field[@name='study_field']" position="replace"/>
+            </field>
+        </record>
+
+        <record id="view_academic_form_updated" model="ir.ui.view">
+            <field name="model">hr.academic</field>
+            <field name="inherit_id" ref="hr_experience.view_academic_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="replace"/>
+                <xpath expr="//field[@name='location']" position="replace"/>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="location" string="Institución"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_academic_search_updated" model="ir.ui.view">
+            <field name="model">hr.academic</field>
+            <field name="inherit_id" ref="hr_experience.view_academic_search" />
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='partner_id']" position="replace"/>
+                <xpath expr="//filter[@name='employee_id']" position="before">
+                    <filter name="location" string="Institución"      context="{'group_by': 'location'}"/>
+                    <filter name="end_date" string="Año Finalización" context="{'group_by': 'end_date:year'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Experiencia Académica / Empleado-->
+        <record id="view_academicemployee_updated_form" model="ir.ui.view">
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr_experience.view_employee_form_inherit" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='academic_ids']" position="replace">
+                    <field name="academic_ids" context="{'default_employee_id': active_id}" nolabel="1">
+                        <tree string="Experiencia Académica">
+                            <field name="name" string="Título"/>
+                            <field name="location" string="Institución"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </tree>
+                        <form string="Experiencia Académica">
+                            <group name="main">
+                                <field name="employee_id"/>
+                                <field name="name"/>
+                                <field name="location" string="Institución"/>
+                                <field name="diploma"/>
+                            </group>
+                            <group name="dates" string="Fechas" col="4">
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                            </group>
+                            <group string="Información Adicional" col="4">
+                                <field name="study_field"/>
+                                <field name="activities"/>
+                            </group>
+                            <group string="Observaciones">
+                                <field name="description" nolabel="1"/>
+                            </group>
+                        </form>
+                    </field>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tareas - formulario -->
+    	<record id="project_view_task_form2_custom" model="ir.ui.view">
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='name']" position="before">
+                        <field name="label_task" class="oe_read_only"/>
+                        <field name="id" class="oe_read_only"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- Tareas - kanban -->
+        <record id="project_view_task_kanban_custom" model="ir.ui.view">
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_kanban"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//strong[@class='o_kanban_record_title']" position="replace">
+                        <strong class="o_kanban_record_title"><field name="label_task"/> <field name="id"/> </strong><field name="name"/><br/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+    </data>
+</odoo>

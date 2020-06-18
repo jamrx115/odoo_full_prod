@@ -1,0 +1,28 @@
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="view_account_extra_form">
+      <field name="name">account.account.form_extra</field>
+      <field name="model">account.account</field>
+      <field name="inherit_id" ref="account.view_account_form"/> 
+      <field name="arch" type="xml">
+        <field name="deprecated" position="after">         
+          <field name="analytic_required"/>
+          <field name="partner_required"/>
+          <field name="base_required"/>
+        </field>  
+      </field>
+    </record>
+              
+    <!-- <record model="ir.ui.view" id="sale_extra_analytic_required_view">
+      <field name="name">sale_extra_analytic_required_view</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form"/>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        <field name="project_id" position = "attributes">
+          <attribute name="attrs">1</attribute>
+        </field>         
+      </field>
+    </record> --> 
+  </data>
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- grupo base empleados -->
+        <record id="hr_project_user_rule" model="ir.rule">
+            <field name="name">Regla proyectos realizados propios</field>
+            <field name="model_id" ref="model_hr_project"/>
+            <field name="groups" eval="[(4,ref('base.group_user'))]"/>
+            <field name="domain_force">[('employee_id.user_id','=',user.id)]</field>
+        </record>
+
+        <record id="hr_skills_user_rule" model="ir.rule">
+            <field name="name">Regla habilidades propias</field>
+            <field name="model_id" ref="model_hr_skills"/>
+            <field name="groups" eval="[(4,ref('base.group_user'))]"/>
+            <field name="domain_force">[('employee_id.user_id','=',user.id)]</field>
+        </record>
+
+        <!-- grupos admin -->
+        <record id="hr_project_admin" model="ir.rule">
+            <field name="name">Regla proyectos de todos los empleados</field>
+            <field name="model_id" ref="model_hr_project"/>
+            <field name="groups" eval="[(4,ref('hr.group_hr_manager'))]"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+        </record>
+
+        <record id="hr_skills_admin" model="ir.rule">
+            <field name="name">Regla habilidades de todos los empleados</field>
+            <field name="model_id" ref="model_hr_skills"/>
+            <field name="groups" eval="[(4,ref('hr.group_hr_manager'))]"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+        </record>
+
+    </data>
+</odoo>

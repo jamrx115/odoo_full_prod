@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- ... CREACIÓN DEL MENU DESPLEGABLE DE LOS GRUPOS DE ACCESO ...-->
+        <record model="ir.module.category" id="module_performance">
+            <field name="name">Desempeño</field>
+            <field name="description">Niveles de acceso para el modulo de desempeño</field>
+            <field name="sequence">3</field>
+        </record>
+         <!-- ... CREACIÓN DE LOS GRUPOS DE ACCESO ...-->
+        <record id="group_custom_perfomance_user" model="res.groups">
+            <field name="name">Usuario</field>
+            <field name="category_id" ref="custom_performance.module_performance"/>
+        </record>
+
+        <record id="group_custom_perfomance_manager" model="res.groups">
+            <field name="name">Responsable</field>
+            <field name="implied_ids" eval="[(4, ref('custom_performance.group_custom_perfomance_user'))]"/>
+            <field name="category_id" ref="custom_performance.module_performance"/>
+        </record>
+
+        <record id="group_custom_perfomance_admin" model="res.groups">
+            <field name="name">Administrador</field>
+            <field name="implied_ids" eval="[(4, ref('custom_performance.group_custom_perfomance_manager'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="category_id" ref="custom_performance.module_performance"/>
+        </record>
+        <!-- ... CREACIÓN DE LAS REGLAS DE REGISTRO...-->
+        
+        <record id="record_rule_own_performance" model="ir.rule">
+            <field name="name">Sólo mostrar las evaluaciones de desempeño propias</field>
+            <field name="model_id" ref="custom_performance.model_custom_performance"/>
+            <field name="groups" eval="[(4, ref('custom_performance.group_custom_perfomance_user'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="domain_force">[('name', '=', user.id)]</field>
+        </record>
+        
+        <record id="record_rule_some_performance" model="ir.rule">
+            <field name="name">Mostrar las evaluaciones de desempeño propias y las de las personas de sus departamentos a cargo</field>
+            <field name="model_id" ref="custom_performance.model_custom_performance"/>
+            <field name="groups" eval="[(4, ref('custom_performance.group_custom_perfomance_manager'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">['|','|',('name', '=', user.id),('department_id.manager_id.user_id','=', user.id),('create_uid', '=', user.id)]</field>
+        </record>
+
+        <record id="record_rule_all_performance" model="ir.rule">
+            <field name="name">Mostrar todas las evaluaciones de desempeño</field>
+            <field name="model_id" ref="custom_performance.model_custom_performance"/>
+            <field name="groups" eval="[(4, ref('custom_performance.group_custom_perfomance_admin'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+        </record>
+    </data>
+</odoo>

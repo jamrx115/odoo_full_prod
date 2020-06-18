@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<menuitem id="menu_sgsst_main" name="SST" groups="base.group_user"
+				  sequence="50" web_icon="custom_sgsst,static/description/icon.png"/>
+		<!-- -->
+		<menuitem id="menu_sst_committee_main" name="Comités SST" groups="base.group_user"
+				  parent="menu_sgsst_main" sequence="51"/>
+
+		<menuitem id="menu_sst_pqrs_main" name="Quejas y sugerencias" groups="base.group_user"
+				  parent="menu_sgsst_main" sequence="61"/>
+
+		<menuitem id="menu_sst_medicalmonitor_main" name="Salud SST" groups="base.group_user"
+				  parent="menu_sgsst_main" sequence="65"/>
+
+		<menuitem id="menu_sst_configuration" name="Configuración" groups="group_sgsst_admin"
+				  parent="menu_sgsst_main" sequence="70"/>
+		<!-- -->
+		<menuitem id="menu_sst_elected_applicants"  name="Candidatos electos" groups="base.group_user"
+				  parent="menu_sst_committee_main" sequence="58" action="action_sst_elected_applicants"/>
+
+		<menuitem id="menu_sst_committee_applicant" name="Elecciones" groups="group_sgsst_admin"
+				  parent="menu_sst_committee_main" sequence="59" action="action_sst_committee_applicant"/>
+
+		<menuitem id="menu_sst_qscommittee" name="Presentación de quejas" groups="base.group_user"
+				  parent="menu_sst_pqrs_main" sequence="69" action="qs_sst_action"/>
+
+		<menuitem id="menu_sst_medicalmonitor" name="Seguimiento casos medicos" groups="base.group_user"
+				  parent="menu_sst_medicalmonitor_main" sequence="70" action="medicalmonitor_sst_action"/>
+
+		<menuitem id="menu_sst_period" name="Periodo" groups="group_sgsst_admin"
+				  parent="menu_sst_configuration" sequence="71" action="action_sst_period"/>
+	</data>
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- Kanban Empleado -->
+		<record id="hr_kanban_view_employees_kanban_forsst" model="ir.ui.view">
+			<field name="model">hr.employee</field>
+			<field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+			<field name="arch" type="xml">
+				<xpath expr="//templates" position="before">
+					<field name="current_sstcommittee"/>
+				</xpath>
+				<xpath expr="//li[@id='last_login']" position="inside">
+					<li t-if="record.current_sstcommittee.raw_value" style="color:#337AB7;text-transform: uppercase;">
+						<field name="current_sstcommittee"/>
+					</li>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

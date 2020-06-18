@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<report
+	        id="button_report_holiday"
+	        model="hr.holidays"
+	        string="Comprobante de ausencia"
+	        report_type="qweb-pdf"
+	        name="custom_hr_holidays.report_holiday"
+        	file="custom_hr_holidays.report_holiday"
+    	/>
+    </data>
+</odoo>
+

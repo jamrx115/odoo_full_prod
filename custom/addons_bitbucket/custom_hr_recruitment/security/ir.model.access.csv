@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_employee_previous_travel,employee.previous.travel,model_employee_previous_travel,base.group_user,1,1,1,1
+access_employee_language,employee.language,model_employee_language,base.group_user,1,1,1,1
+access_employee_relative,employee.relative,model_employee_relative,base.group_user,1,1,1,1
+access_employee_children,employee.children,model_employee_children,base.group_user,1,1,1,1

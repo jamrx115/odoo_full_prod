@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sst_employee1,custom.period.user,model_custom_period,custom_sgsst.group_sgsst_user,1,1,1,1
+access_ccs_employee2,custom.committee.applicant.user,model_custom_committee_applicant,custom_sgsst.group_sgsst_user,1,1,1,1
+access_ccs_employee3,custom.assignment.note.user,model_custom_assignment_note,custom_sgsst.group_sgsst_user,1,1,1,1
+access_ccs_employee4,custom.qscommittee.user,model_custom_qscommittee,custom_sgsst.group_sgsst_user,1,1,1,1
+
+access_sst_admin1,custom.period.admin,model_custom_period,custom_sgsst.group_sgsst_admin,1,1,1,1
+access_sst_admin2,custom.committee.applicant.admin,model_custom_committee_applicant,custom_sgsst.group_sgsst_admin,1,1,1,1
+access_sst_admin3,custom.assignment.note.admin,model_custom_assignment_note,custom_sgsst.group_sgsst_admin,1,1,1,1
+access_sst_admin4,custom.qscommittee.admin,model_custom_qscommittee,custom_sgsst.group_sgsst_admin,1,1,1,1

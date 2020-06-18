@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- Viajes empleado -->
+		<record model="ir.ui.view" id="view_employee_previous_travel_tree">
+			<field name="name">view.employee.previous.travel.tree</field>
+			<field name="model">employee.previous.travel</field>
+			<field name="arch" type="xml">
+				<tree string="Viajes laborales">
+					<field name="employee_id" invisible="1" />
+					<field name="from_date" />
+					<field name="to_date" />
+					<field name="reason" />
+				</tree>
+			</field>
+		</record>
+		<record model="ir.ui.view" id="view_employee_previous_travel_form">
+			<field name="name">view.employee.previous.travel.form</field>
+			<field name="model">employee.previous.travel</field>
+			<field name="arch" type="xml">
+				<form string="Viajes laborales" version="9.0">
+					<sheet>
+						<field name="employee_id" invisible="1" />
+						<group col="4" colspan="4">
+							<field name="from_date" />
+							<field name="to_date" />
+							<field name="country_id" />
+							<field name="city_id" />
+						</group>
+						<group col="4" colspan="4">
+							<field name="reason" />
+							<field name="partner_id" />
+							<field name="daily_value" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="action_emp_travels_list" model="ir.actions.act_window">
+			<field name="name">Viajes laborales</field>
+			<field name="res_model">employee.previous.travel</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="view_employee_previous_travel_tree" />
+			<field name="domain">[('employee_id', '=', active_id)]</field>
+		</record>
+
+		<!-- idiomas empleado -->
+		<record model="ir.ui.view" id="view_employee_language_tree">
+			<field name="name">view.employee.language.tree</field>
+			<field name="model">employee.language</field>
+			<field name="arch" type="xml">
+				<tree string="Idioma empleado">
+					<field name="employee_id" invisible="1" />
+					<field name="language" />
+					<field name="read_lang" />
+					<field name="write_lang" />
+					<field name="speak_lang" />
+					<field name="mother_tongue" />
+				</tree>
+			</field>
+		</record>
+		<record model="ir.ui.view" id="view_employee_language_form">
+			<field name="name">view.employee.language.form</field>
+			<field name="model">employee.language</field>
+			<field name="arch" type="xml">
+				<form string="Idioma empleado" version="9.0">
+					<sheet>
+						<field name="employee_id" invisible="1" />
+						<group col="2" colspan="4">
+							<field name="language" tabindex="1" />
+						</group>
+						<group col="6" colspan="6">
+							<field name="read_lang" tabindex="2" widget="radio" />
+							<field name="write_lang" tabindex="3" widget="radio" />
+							<field name="speak_lang" tabindex="4" widget="radio" />
+						</group>
+						<group string="Langua materna" colspan="4">
+							<field name="mother_tongue" tabindex="5" />
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="action_emp_languages_list" model="ir.actions.act_window">
+			<field name="name">Idiomas empleados</field>
+			<field name="res_model">employee.language</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="view_employee_language_tree" />
+			<field name="domain">[('employee_id', '=', active_id)]</field>
+		</record>
+
+		<!-- Familia -->
+		<record model="ir.ui.view" id="hr_employee_inherit_form_view">
+			<field name="name">hr.employee.form.view</field>
+			<field name="model">hr.employee</field>
+			<field name="inherit_id" ref="hr.view_employee_form"/>
+			<field name="arch" type="xml">
+				<page name="hr_settings" position="after">
+					<page name="family_info" string="Información Familiar" groups="base.group_user">
+						<group string="Hijos">
+							<field name="children_ids" nolabel="1">
+								<tree string="Hijos">
+									<field name="name" />
+									<field name="relative_type"/>
+									<field name="birthday"/>
+								</tree>
+								<form string="Hijos">
+									<group name="main">
+										<field name="name"/>
+										<field name="relative_type"/>
+										<field name="identification_type"/>
+										<field name="identification_id"/>
+									</group>
+									<group name="birthday" col="4">
+										<field name="birthday"/>
+										<field name="gender" />
+										<field name="country_id" options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}" />
+										<field name="city_id" options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
+									</group>
+									<group name="address" col="4">
+										<field name="phone"/>
+										<field name="active"/>
+									</group>
+								</form>
+							</field>
+						</group>
+						<group string="Otros Familiares">
+							<field name="relative_ids" nolabel="1">
+								<tree string="Otros Familiares">
+									<field name="name" />
+									<field name="relative_type"/>
+									<field name="birthday"/>
+								</tree>
+								<form string="Otros Familiares">
+									<group name="main">
+										<field name="name"/>
+										<field name="relative_type"/>
+										<field name="identification_type"/>
+										<field name="identification_id"/>
+									</group>
+									<group name="birthday" col="4">
+										<field name="birthday"/>
+										<field name="gender" readonly="1" />
+										<field name="country_id" options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}" />
+										<field name="city_id" options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
+									</group>
+									<group name="address" col="4">
+										<field name="phone"/>
+										<field name="address" />
+										<field name="email"/>
+										<field name="occupation"/>
+										<field name="active"/>
+									</group>
+								</form>
+							</field>
+						</group>
+					</page>
+				</page>
+			</field>
+		</record>
+
+		<!-- botones empleado -->
+		<record id="view_hr_employee_inherited" model="ir.ui.view">
+			<field name="name">hr.employee.form.inherited</field>
+			<field name="model">hr.employee</field>
+			<field name="inherit_id" ref="hr.view_employee_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//button[@name='toggle_active']" position="before">
+					<button name="%(action_emp_languages_list)d" type="action" class="oe_inline oe_stat_button" icon="fa-font">
+	                    <field name="no_of_lang" widget="statinfo" string="Idiomas" />
+	                </button>
+	                <button name="%(action_emp_travels_list)d" type="action" style="width:145px !important" class="oe_inline oe_stat_button" icon="fa-car">
+	                    <field name="no_of_prev_travel" widget="statinfo" string="Viajes laborales" />
+	                </button>
+	            </xpath>
+	        </field>
+	    </record>
+	</data>
+</odoo>
+

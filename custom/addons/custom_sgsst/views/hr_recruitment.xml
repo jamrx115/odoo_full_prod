@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- Cargo - formulario -->
+		<record id="hr_view_hr_job_form_updated" model="ir.ui.view">
+			<field name="model">hr.job</field>
+			<field name="inherit_id" ref="hr.view_hr_job_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//sheet" position="inside">
+					<group attrs="{'invisible': [('state', '!=', 'recruit')]}">
+						<field name="x_usual_posture"/>
+						<field name="job_analisys_bool"/>
+						<field name="elem_str"/>
+						<field name="tools_equipment"/>
+					</group>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

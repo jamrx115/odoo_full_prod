@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<template id="report_holiday">
+		    <t t-call="web.html_container">
+		        <t t-foreach="docs" t-as="o">
+		            <t t-if="o.state=='validate'">
+
+                        <div class="header">
+                            <div class="row" style="text-align:center;">
+                                <t t-set="company" t-value="o.employee_id.company_id" />
+                                <div class="column" style="display:inline-block;width:20%;">
+                                    <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height:89px;width:auto;max-width:89px;"/>
+                                </div>
+                                <div class="column" style="display:inline-block;width:50%;color:#6186d1;">
+                                    <b>Comprobante Ausencias Laborales</b>
+                                </div>
+                                <div class="column" style="display:inline-block;width:20%;color:#6186d1;">
+                                </div>
+                            </div>
+                        </div>
+
+		                <t t-call="web.external_layout">
+		                    <div class="page">
+                                <h2>Comprobante <span t-field="o.holiday_status_id"/></h2>
+
+                                <table class="table table-condensed table-bordered">
+                                    <colgroup>
+                                        <col style="width:18%"/>
+                                        <col style="width:32%"/>
+                                        <col style="width:18%"/>
+                                        <col style="width:32%"/>
+                                    </colgroup>
+                                    <tr>
+                                        <td><strong>Empleado</strong></td>
+                                        <td><span t-field="o.employee_id"/></td>
+                                        <td><strong>Departamento</strong></td>
+                                        <td><span t-field="o.employee_id.department_id.name"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Identificación</strong></td>
+                                        <td><span t-field="o.employee_id.identification_id"/></td>
+                                        <td><strong>Correo electrónico</strong></td>
+                                        <td><span t-field="o.employee_id.work_email"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Descripción</strong></td>
+                                        <td colspan="3"><span t-field="o.name"/></td>
+                                    </tr>
+		                            <tr>
+		                                <td><strong>Inicio ausencia</strong></td>
+		                                <td><span t-field="o.date_from" t-field-options="{'format': 'EEEE'}"/>, <span t-field="o.date_from" t-field-options="{'format': 'dd'}"/> de <span t-field="o.date_from" t-field-options="{'format': 'MMMM'}"/> de <span t-field="o.date_from" t-field-options="{'format': 'yyyy'}"/></td>
+		                                <td><strong>Fin ausencia</strong></td>
+		                                <td><span t-field="o.date_to" t-field-options="{'format': 'EEEE'}"/>, <span t-field="o.date_to" t-field-options="{'format': 'dd'}"/> de <span t-field="o.date_to" t-field-options="{'format': 'MMMM'}"/> de <span t-field="o.date_to" t-field-options="{'format': 'yyyy'}"/></td>
+		                            </tr>
+		                            <tr>
+                                        <td rowspan="2"><strong>Regreso</strong></td>
+                                        <td rowspan="2"><span t-field="o.date_return" t-field-options="{'format': 'EEEE'}"/>, <span t-field="o.date_return" t-field-options="{'format': 'dd'}"/> de <span t-field="o.date_return" t-field-options="{'format': 'MMMM'}"/> de <span t-field="o.date_return" t-field-options="{'format': 'yyyy'}"/></td>
+                                        <td rowspan="2"><strong>Duración</strong></td>
+		                                <td><span t-esc="'%.2f'%(o.number_of_days_temp)"/> días hábiles</td>
+		                            </tr>
+                                    <tr>
+                                        <td><span t-esc="'%.2f'%(o.number_of_days_calendar * -1.0)"/> días calendario</td>
+                                    </tr>
+		                        </table>
+
+                                <table class="table table-condensed table-bordered">
+                                    <colgroup>
+                                        <col style="width:18%"/>
+                                        <col style="width:32%"/>
+                                        <col style="width:18%"/>
+                                        <col style="width:32%"/>
+                                    </colgroup>
+                                    <tr>
+                                        <td><strong>Aprobado por</strong></td>
+                                        <td><span t-field="o.first_approver_id"/></td>
+                                        <t t-if="(not o.holiday_status_id.double_validation) or (o.holiday_status_id.double_validation and not o.second_approver_id)">
+                                            <td></td><td></td>
+                                        </t>
+                                        <t t-else="">
+                                            <td><strong>Confirmado por</strong></td>
+                                            <td><span t-field="o.second_approver_id"/></td>
+                                        </t>
+                                    </tr>
+                                </table>
+		                    </div>
+		                </t>
+		            </t>
+                    <t t-elif="o.state=='confirm' or o.state=='validate1'">
+                        <t t-if="'no remunerad' in o.holiday_status_id.name or 'sin pago' in o.holiday_status_id.name">
+                            <t t-call="web.external_layout_boxed">
+                                <div class="header container">
+                                    <div class="row" style="text-align:center;">
+                                        <t t-set="company" t-value="o.employee_id.company_id" />
+                                        <div class="column" style="display:inline-block;width:20%;">
+                                            <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % to_text(company.logo)" style="max-height:89px;width:auto;max-width:89px;"/>
+                                        </div>
+                                        <div class="column" style="display:inline-block;width:70%;color:#6186d1;">
+                                            <b>FORMATO SOLICITUD DE LICENCIA NO REMUNERADA</b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+
+                            <t t-call="web.external_layout">
+                                <div class="page">
+                                    <table class="table table-condensed table-bordered">
+                                        <colgroup>
+                                            <col style="width:25%"/>
+                                            <col style="width:25%"/>
+                                            <col style="width:25%"/>
+                                            <col style="width:25%"/>
+                                        </colgroup>
+                                        <tr>
+                                            <td colspan="2"><strong>Oficina</strong></td>
+                                            <td colspan="2"><span t-field="o.employee_id.company_id.country_id"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2"><strong>Tipo de contratación</strong></td>
+                                            <td colspan="2">Indefinido</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Nombres y Apellidos</strong></td>
+                                            <td colspan="3"><span t-field="o.employee_id"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Número de identificación</strong></td>
+                                            <td colspan="3"><span t-field="o.employee_id.identification_id"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Fecha de ingreso</strong></td>
+                                            <td><span t-field="o.employee_id.joining_date" t-field-options="{'format': 'dd'}"/> - <span t-field="o.employee_id.joining_date" t-field-options="{'format': 'MMMM'}"/> - <span t-field="o.employee_id.joining_date" t-field-options="{'format': 'yyyy'}"/></td>
+                                            <td><strong>Días solicitados</strong></td>
+                                            <td><span t-esc="'%.2f'%(o.number_of_days_temp)"/> días hábiles / <span t-esc="'%.2f'%(o.number_of_days_calendar * -1.0)"/> días calendario</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Desde</strong></td>
+                                            <td><span t-field="o.date_from" t-field-options="{'format': 'EEEE'}"/>, <span t-field="o.date_from" t-field-options="{'format': 'dd'}"/> de <span t-field="o.date_from" t-field-options="{'format': 'MMMM'}"/> de <span t-field="o.date_from" t-field-options="{'format': 'yyyy'}"/></td>
+                                            <td><strong>Hasta</strong></td>
+                                            <td><span t-field="o.date_to" t-field-options="{'format': 'EEEE'}"/>, <span t-field="o.date_to" t-field-options="{'format': 'dd'}"/> de <span t-field="o.date_to" t-field-options="{'format': 'MMMM'}"/> de <span t-field="o.date_to" t-field-options="{'format': 'yyyy'}"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Fecha de reintegro</strong></td>
+                                            <td colspan="3"><span t-field="o.date_return" t-field-options="{'format': 'EEEE'}"/>, <span t-field="o.date_return" t-field-options="{'format': 'dd'}"/> de <span t-field="o.date_return" t-field-options="{'format': 'MMMM'}"/> de <span t-field="o.date_return" t-field-options="{'format': 'yyyy'}"/></td>
+                                        </tr>
+                                    </table>
+
+                                    <table class="table table-condensed table-bordered">
+                                        <colgroup>
+                                            <col style="width:30%"/>
+                                            <col style="width:30%"/>
+                                            <col style="width:30%"/>
+                                        </colgroup>
+                                        <tr style="height:80">
+                                            <td></td> 
+                                            <td></td> 
+                                            <td></td>                                 
+                                        </tr>
+                                        <tr>
+                                            <td>LÍDER INMEDIATO</td> 
+                                            <td>DIRECTOR OPERATIVO</td> 
+                                            <td>RECURSOS HUMANOS</td> 
+                                        </tr>
+                                    </table>
+
+                                    <table class="table table-condensed table-bordered">
+                                        <tr><b>Observaciones:</b>  Respecto a los aportes en salud, el artículo 3.2.5.2 del decreto 780 de 2016 establece lo siguiente:                                        </tr>
+                                        <tr><i>"<b>Cotizaciones durante el período de huelga o suspensión temporal del contrato de trabajo.</b> En los períodos de huelga o suspensión temporal del contrato de trabajo por alguna de las causales contempladas en el artículo 51 del Código Sustantivo del Trabajo, no habrá lugar al pago de los aportes por parte del afiliado, pero sí de los correspondientes al empleador los cuales se efectuarán con base en el último salario base reportado". Lo cual significa que en cuanto a pensión, no es obligatorio para la empresa realizar aportes durante este tiempo, por tanto el colaborador puede quedar descubierto del sistema pensional al no realizar aportes. Dado que Alltic está exonerado de pagos de Salud, no se realizará modificación a este servicio. La arl no será paga, dada la solicitud.</i>
+                                        </tr>
+                                        <tr>Declaro tener conciencia sobre el impacto de la solicitud en los aportes a la Seguridad Social y exonero a Alltic sobre las consecuencias que esto pueda acarrearme.
+                                        </tr>
+                                    </table>
+
+                                    <table class="table">
+                                        <tr style="height:30">
+                                            <td>
+                                                Se firma a los ____ días del mes de ________________ del año ________
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <table class="table">
+                                        <tr style="height:80">
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p>___________________________________</p>
+                                                <p>Nombre:</p>
+                                                <p>C.C:</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <p></p><p></p>
+
+                                    <table class="table table-condensed table-bordered">
+                                        <colgroup>
+                                            <col style="width:10%"/>
+                                            <col style="width:10%"/>
+                                            <col style="width:10%"/>
+                                            <col style="width:15%"/>
+                                            <col style="width:10%"/>
+                                            <col style="width:10%"/>
+                                            <col style="width:15%"/>
+                                        </colgroup>
+                                        <tr>
+                                            <th>Versión</th>
+                                            <th>Fecha</th>
+                                            <th>Autor</th>
+                                            <th>Descripción</th>
+                                            <th>Revisado</th>
+                                            <th>Fecha Aprobado</th>
+                                            <th>Motivo cambio</th>
+                                        </tr>
+                                        <tr>
+                                            <td style="height:30"></td>
+                                            <td style="height:30"></td>
+                                            <td style="height:30"></td>
+                                            <td style="height:30"></td>
+                                            <td style="height:30"></td>
+                                            <td style="height:30"></td>
+                                            <td style="height:30"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="height:30"></td>
+                                            <td style="height:30"></td>
+                                            <td style="height:30"></td>
+                                            <td style="height:30"></td>
+                                            <td style="height:30"></td>
+                                            <td style="height:30"></td>
+                                            <td style="height:30"></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="height:30"></td>
+                                            <td style="height:30"></td>
+                                            <td style="height:30"></td>
+                                            <td style="height:30"></td>
+                                            <td style="height:30"></td>
+                                            <td style="height:30"></td>
+                                            <td style="height:30"></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </t>
+                        </t>
+                    </t>
+		        </t>
+		    </t>
+		</template>
+    </data>
+</odoo>
+

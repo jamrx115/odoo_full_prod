@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<!-- Tipos de entregable -->
+        <record id="entregable_view_tree" model="ir.ui.view">
+            <field name="model">custom.pqrs.deliver</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="entregable_view_form" model="ir.ui.view">
+            <field name="model">custom.pqrs.deliver</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"></field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_list_entregable">
+            <field name="name">Tipos de entregable</field>
+            <field name="res_model">custom.pqrs.deliver</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Pulse para crear tipos de entregable</p>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_list_entregable_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="entregable_view_tree"/>
+            <field name="act_window_id" ref="action_list_entregable"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_list_entregable_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="entregable_view_form"/>
+            <field name="act_window_id" ref="action_list_entregable"/>
+        </record>
+
+        <!-- Proceso afectado -->
+        <record id="affproc_view_tree" model="ir.ui.view">
+            <field name="model">custom.pqrs.affected.process</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="affproc_view_form" model="ir.ui.view">
+            <field name="model">custom.pqrs.affected.process</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"></field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_list_affproc">
+            <field name="name">Procesos afectados</field>
+            <field name="res_model">custom.pqrs.affected.process</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Pulse para crear procesos afectados</p>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_list_affproc_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="affproc_view_tree"/>
+            <field name="act_window_id" ref="action_list_affproc"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_list_affproc_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="affproc_view_form"/>
+            <field name="act_window_id" ref="action_list_affproc"/>
+        </record>
+
+        <!-- Causas identificadas -->
+        <record id="causes_view_tree" model="ir.ui.view">
+            <field name="model">custom.pqrs.causes</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="causes_view_form" model="ir.ui.view">
+            <field name="model">custom.pqrs.causes</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"></field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_list_causes">
+            <field name="name">Causas identificadas</field>
+            <field name="res_model">custom.pqrs.causes</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Pulse para crear causas identificadas</p>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_list_causes_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="causes_view_tree"/>
+            <field name="act_window_id" ref="action_list_causes"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_list_causes_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="causes_view_form"/>
+            <field name="act_window_id" ref="action_list_causes"/>
+        </record>
+
+        <!-- Metodología seleccionada -->
+        <record id="method_view_tree" model="ir.ui.view">
+            <field name="model">custom.pqrs.method</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="method_view_form" model="ir.ui.view">
+            <field name="model">custom.pqrs.method</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"></field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_list_method">
+            <field name="name">Metodologías seleccionadas</field>
+            <field name="res_model">custom.pqrs.method</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Pulse para crear metodologias</p>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_list_method_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="method_view_tree"/>
+            <field name="act_window_id" ref="action_list_method"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_list_method_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="method_view_form"/>
+            <field name="act_window_id" ref="action_list_method"/>
+        </record>
+
+        <!-- Oportunidades de mejora -->
+        <record id="opportunities_view_tree" model="ir.ui.view">
+            <field name="model">custom.pqrs.opportunity</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="opportunities_view_form" model="ir.ui.view">
+            <field name="model">custom.pqrs.opportunity</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"></field>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_list_opportunities">
+            <field name="name">Oportunidades de mejora</field>
+            <field name="res_model">custom.pqrs.opportunity</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">Pulse para crear oportunidades de mejora</p>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_list_opportunities_tree">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="opportunities_view_tree"/>
+            <field name="act_window_id" ref="action_list_opportunities"/>
+        </record>
+
+        <record model="ir.actions.act_window.view" id="action_list_opportunities_form">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="opportunities_view_form"/>
+            <field name="act_window_id" ref="action_list_opportunities"/>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report 
+        id="custom_report_knowledge_evaluation"
+        model="custom.evaluation.knowledge"
+        string="Evaluación del impacto de la capacitación"
+        report_type="qweb-pdf"
+        name="custom_knowledge.report_knowledge_evaluation"
+        file="custom_knowledge.report_knowledge_evaluation"
+    />
+</odoo>

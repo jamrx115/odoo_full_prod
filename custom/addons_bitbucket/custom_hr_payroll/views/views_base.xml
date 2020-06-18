@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<!-- reglas salariales - sequence visible -->
+	    <record id="hr_salary_rule_list_updated" model="ir.ui.view">
+	        <field name="model">hr.salary.rule</field>
+	        <field name="inherit_id" ref="hr_payroll.hr_salary_rule_list"/>
+	        <field name="arch" type="xml">
+	            <xpath expr="//field[@name='sequence']" position="attributes">
+	                <attribute name="invisible" eval="0"/>
+	            </xpath>
+	            <xpath expr="//tree" position="attributes">
+	                <attribute name="default_order" eval="sequence"/>
+	            </xpath>
+	        </field>
+	    </record>
+    	<!-- estructuras salariales - sequence visible -->
+	    <record id="hr_salary_struct_form_updated" model="ir.ui.view">
+	        <field name="model">hr.payroll.structure</field>
+	        <field name="inherit_id" ref="hr_payroll.view_hr_employee_grade_form"/>
+	        <field name="arch" type="xml">
+	            <xpath expr="//field[@name='sequence']" position="attributes">
+	                <attribute name="invisible" eval="0"/>
+	            </xpath>
+	            <xpath expr="//tree" position="attributes">
+	                <attribute name="default_order" eval="sequence"/>
+	            </xpath>
+	        </field>
+	    </record>
+    	<!-- estructuras salariales - cambiando orden -->
+	    <record id="hr_salary_struct_list_updated" model="ir.ui.view">
+	        <field name="model">hr.payroll.structure</field>
+	        <field name="inherit_id" ref="hr_payroll.view_hr_payroll_structure_list_view"/>
+	        <field name="arch" type="xml">
+	            <xpath expr="//tree" position="attributes">
+	                <attribute name="default_order" eval="code"/>
+	            </xpath>
+	        </field>
+	    </record>
+    </data>
+</odoo>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <!-- ********* vistas menú ********* -->
+
+    <!-- vista lista -->
+    <record id="view_hr_projects_tree" model="ir.ui.view">
+        <field name="name">hr.project.tree</field>
+        <field name="model">hr.project</field>
+        <field name="arch" type="xml">
+            <tree string="Proyectos realizados">
+                <field name="employee_id"/>
+                <field name="year"/>
+                <field name="name"/>
+                <field name="role"/>
+                <field name="customer"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- vista formulario -->
+    <record id="view_hr_project_form" model="ir.ui.view">
+        <field name="name">hr.project.form</field>
+        <field name="model">hr.project</field>
+        <field name="arch" type="xml">
+            <form string="Proyecto realizado">
+                <sheet>
+                    <group name="main">
+                        <field name="employee_id"/>
+                    </group>
+                    <group name="description" col="4">
+                        <field name="name"/>
+                        <field name="role" required="1"/>
+                        <field name="year"/>
+                        <field name="customer"/>
+                    </group>
+                    <group name="description">
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+      </field>
+    </record>
+
+    <!-- vista búsqueda -->
+    <record id="view_hr_project_search" model="ir.ui.view">
+        <field name="name">hr.project.form</field>
+        <field name="model">hr.project</field>
+        <field name="arch" type="xml">
+            <search string="Proyectos realizados">
+                <field name="employee_id"/>
+                <group expand="0" name="group_by" string="Agrupar por">
+                    <filter name="employee_id" string="Empleado"  context="{'group_by' : 'employee_id'}" />
+                    <filter name="role" string="Rol" context="{'group_by': 'role'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- acción -->
+    <record id="open_view_hr_project_form" model="ir.actions.act_window">
+        <field name="name">Proyectos realizados</field>
+        <field name="res_model">hr.project</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- menú -->
+    <menuitem name="Proyectos realizados"
+              parent="hr_experience.menu_hr_experience"
+              sequence="13"
+              id="menu_open_view_hr_project_form"
+              action="open_view_hr_project_form"/>
+    </data>
+
+    <!-- ********* datos del empleado ********* -->
+    <record id="view_employee_complements_form" model="ir.ui.view">
+        <field name="name">cv.complements.employee.form</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page name="projects_skills" string="Proyectos y Habilidades" groups="base.group_user">
+                    <group string="Proyectos realizados">
+                        <field name="projects_ids" context="{'default_employee_id': active_id}" nolabel="1">
+                            <tree string=" proyectos realizados">
+                                <field name="year"/>
+                                <field name="name"/>
+                                <field name="role"/>
+                            </tree>
+                            <form string="Proyecto realizado">
+                                <group>
+                                    <field name="employee_id" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="name"/>
+                                    <field name="role"/>
+                                    <field name="year"/>
+                                    <field name="customer"/>
+                                </group>
+                                <group>
+                                    <field name="description"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+
+                    <group string="Herramientas y habilidades">
+                        <field name="skills_ids" context="{'default_employee_id': active_id}" nolabel="1">
+                            <tree string=" herramientas y habilidades">
+                                <field name="name"/>
+                                <field name="level"/>
+                            </tree>
+                            <form string="Proyecto realizado">
+                                <group>
+                                    <field name="employee_id" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="name"/>
+                                    <field name="level"/>
+                                </group>
+                            </form>
+                        </field>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ccs_admin1,partner.dates.important.admin,model_partner_dates_important,hr.group_hr_manager,1,1,1,1
+access_rp_admin2,custom.contact.area.adminrrhh,model_custom_contact_area,hr.group_hr_manager,1,1,1,1
+access_rp_admin3,custom.contact.area.adminsale,model_custom_contact_area,sales_team.group_sale_manager,1,1,1,1
+access_rp_admin4,custom.contact.area.adminaccount,model_custom_contact_area,account.group_account_manager,1,1,1,1

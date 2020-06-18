@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<!--
+    		Reorganizando "Configuración / Contabilidad"
+    	
+    		Plan contable sequence="3" 
+	    	Impuestos sequence="5"
+	    	Monedas sequence="6"
+	    	Diarios sequence="7"
+	    	Cuentas Bancarias sequence="9"
+	    	Posiciones Fiscales sequence="10"
+	    	Informes sequence="11"
+    	-->
+
+    	<!-- Plan contable -->
+    	<record id="view_account_form_custom" model="ir.ui.view">
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form"/>
+            <field name="arch" type="xml">
+                <data>
+                	<!-- ocultando -->
+                    <xpath expr="//field[@name='tag_ids']" position="replace"/>
+                    <xpath expr="//field[@name='group_id']" position="replace"/>
+                </data>
+            </field>
+        </record>
+    	<record id="view_account_tree_custom" model="ir.ui.view">
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_list"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//tree" position="attributes">
+                        <attribute name="default_order">code</attribute>
+                    </xpath>
+                    <xpath expr="//field[@name='currency_id']" position="replace"/>
+                    <xpath expr="//field[@name='user_type_id']" position="after">
+                        <field name="parent_id"/>
+                    </xpath>
+                    <xpath expr="//field[@name='company_id']" position="replace"/>
+                </data>
+            </field>
+        </record>
+        <!-- Impuestos -->
+        <record id="view_tax_tree_custom" model="ir.ui.view">
+            <field name="model">account.tax</field>
+            <field name="inherit_id" ref="account.view_tax_tree"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='description']" position="replace"/>
+                    <xpath expr="//field[@name='company_id']" position="replace"/>
+                    <xpath expr="//field[@name='active']" position="attributes">
+                        <attribute name="invisible">1</attribute>
+                    </xpath>
+
+                    <xpath expr="//field[@name='name']" position="after">
+                        <field name="account_id"/>
+                        <field name="refund_account_id"/>
+                    </xpath>
+                    <xpath expr="//field[@name='type_tax_use']" position="after">
+                        <field name="amount"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+        <record id="view_tax_form_custom" model="ir.ui.view">
+            <field name="model">account.tax</field>
+            <field name="inherit_id" ref="account.view_tax_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='active']" position="attributes">
+                        <attribute name="invisible">1</attribute>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+        <!-- Informes Financieros -->
+        <record id="view_account_financial_report_tree_customized" model="ir.ui.view">
+            <field name="model">account.financial.report</field>
+            <field name="inherit_id" ref="account.view_account_financial_report_tree"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//tree" position="attributes">
+                        <attribute name="default_order">name</attribute>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+        <!-- CIIU -->
+        <record id="view_res_co_ciiu_tree_customized" model="ir.ui.view">
+            <field name="model">res.ciiu</field>
+            <field name="inherit_id" ref="account_base_co.view_res_co_ciiu_tree"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='name']" position="after">
+                        <field name="parent_id"/>
+                        <field name="type"/>
+                    </xpath>
+                    <xpath expr="//tree" position="attributes">
+                        <attribute name="default_order">code</attribute>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+        <!-- Facturas -->
+        <record id="view_invoice_asset_category_customized" model="ir.ui.view">
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account_asset.view_invoice_asset_category"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='asset_category_id']" position="attributes">
+                    <attribute name="groups">base.group_no_one</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!-- Facturas - Clientes -->
+        <record id="invoice_customer_form_customized" model="ir.ui.view">
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='analytic_tag_ids']" position="attributes">
+                    <attribute name="groups">base.group_no_one</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='sequence_number_next']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='team_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@name='other_info']/group/group/field[@name='journal_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@name='other_info']/group/group/field[@name='company_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="domain">['&amp;', '&amp;', ('active', '=', True), ('customer', '=', True), ('parent_id', '=', False)]</attribute>
+                    <attribute name="options">{&quot;no_open&quot;: True, &quot;no_create&quot;: True}</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!-- Facturas - Proveedores -->
+        <record id="invoice_supplier_form_customized" model="ir.ui.view">
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='analytic_tag_ids']" position="attributes">
+                    <attribute name="groups">base.group_no_one</attribute>
+                </xpath>
+                <xpath expr="//field[@name='sequence_number_next']" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@name='other_info']/group/group/field[@name='journal_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@name='other_info']/group/group/field[@name='company_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="domain">['&amp;', '&amp;', ('active', '=', True), ('supplier', '=', True), ('parent_id', '=', False)]</attribute>
+                    <attribute name="options">{&quot;no_open&quot;: True, &quot;no_create&quot;: True}</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!-- Diarios -->
+        <record id="view_account_journal_form_custom" model="ir.ui.view">
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='type']" position="after">
+                        <field name="str_footer" attrs="{'invisible': [('type', '!=', 'sale')]}"/>
+                    </xpath>
+                    <xpath expr="//page[@name='advanced_settings']" position="before">
+                        <page name="resols" string="Resoluciones" attrs="{'invisible': [('type', '!=', 'sale')]}">
+                            <group>
+                                <field name="resols" context="{'default_journal_id': active_id}" nolabel="1">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="sel_type"/>
+                                        <field name="date_resol"/>
+                                        <field name="int_startr"/>
+                                        <field name="int_endres"/>
+                                    </tree>
+                                    <form>
+                                        <group name="parent">
+                                            <field name="journal_id" readonly="1" options='{"no_open": True, "no_create": True}'/>
+                                        </group>
+                                        <group name="main" col="4">
+                                            <field name="name"/>
+                                            <field name="date_resol"/>
+                                            <field name="sel_type"/>
+                                        </group>
+                                        <group name="numbers" col="4">
+                                            <field name="int_startr"/>
+                                            <field name="int_endres"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </group>
+                        </page>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <!-- *** menuitems nuevos para grupo extendido contabilidad *** -->
+        <menuitem
+        	id="menu_account_type" name="Tipos cuentas" 
+        	parent="account.account_account_menu" sequence="2" 
+        	action="account.action_account_type_form"
+        	groups="account.group_account_user" />
+        <menuitem
+        	id="menu_alltic_res_bank_form" name="Bancos"
+        	parent="account.account_account_menu" sequence="8"
+        	action="base.action_res_bank_form"/>
+    </data>
+</odoo>
+

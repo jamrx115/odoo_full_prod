@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<!-- reglas salariales - sequence visible -->
+	    <record id="hr_salary_rule_list_updated" model="ir.ui.view">
+	        <field name="model">hr.salary.rule</field>
+	        <field name="inherit_id" ref="hr_payroll.hr_salary_rule_list"/>
+	        <field name="arch" type="xml">
+	            <xpath expr="//field[@name='sequence']" position="attributes">
+	                <attribute name="invisible" eval="0"/>
+	            </xpath>
+	            <xpath expr="//tree" position="attributes">
+	                <attribute name="default_order" eval="sequence"/>
+	            </xpath>
+	        </field>
+	    </record>
+    	<!-- estructuras salariales - sequence visible -->
+	    <record id="hr_salary_struct_form_updated" model="ir.ui.view">
+	        <field name="model">hr.payroll.structure</field>
+	        <field name="inherit_id" ref="hr_payroll.view_hr_employee_grade_form"/>
+	        <field name="arch" type="xml">
+	            <xpath expr="//field[@name='sequence']" position="attributes">
+	                <attribute name="invisible" eval="0"/>
+	            </xpath>
+	            <xpath expr="//tree" position="attributes">
+	                <attribute name="default_order" eval="sequence"/>
+	            </xpath>
+	        </field>
+	    </record>
+    	<!-- estructuras salariales - cambiando orden -->
+	    <record id="hr_salary_struct_list_updated" model="ir.ui.view">
+	        <field name="model">hr.payroll.structure</field>
+	        <field name="inherit_id" ref="hr_payroll.view_hr_payroll_structure_list_view"/>
+	        <field name="arch" type="xml">
+	            <xpath expr="//tree" position="attributes">
+	                <attribute name="default_order" eval="code"/>
+	            </xpath>
+	        </field>
+	    </record>
+    	<!-- worked days - días calendario -->
+    	<record id="worked_days_updated" model="ir.ui.view">
+    		<field name="model">hr.payslip</field>
+    		<field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+    		<field name="arch" type="xml">
+    			<xpath expr="//field[@name='worked_days_line_ids']" position="replace">
+    				<field name="worked_days_line_ids">
+    					<tree string="Worked Days" create="false">
+    						<field name="name"/>
+    						<field name="code"/>
+    						<!--<field name="number_of_hours" string="Horas hábiles"/>-->
+    						<field name="number_of_days" string="Días hábiles" sum="Total Working Days"/>
+    						<field name="number_of_days_calendar" sum="Total Días Calendario"/>
+    						<field name="contract_id"/>
+    						<field name="sequence" invisible="True"/>
+                            <field name="distance_from_holiday" invisible="True"/>
+                            <field name="holiday_id" invisible="True"/>
+    					</tree>
+    				</field>
+    			</xpath>
+    		</field>
+    	</record>
+    	<!-- line ids - cálculo de nómina -->
+    	<record id="line_ids_updated" model="ir.ui.view">
+    		<field name="model">hr.payslip</field>
+    		<field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+    		<field name="arch" type="xml">
+    			<xpath expr="//field[@name='line_ids']" position="replace">
+    				<page string="Salary Computation" >
+                        <field name="line_ids" colspan="4" nolabel="1">
+                            <tree string="Salary Structure" create="false" editable="bottom" decoration-info="total == 0"
+                                decoration-muted="code == 'SUBTOTAL' or code == 'TOTALDEV' or code == 'TOTALDED' or code == 'DIAS100' or code == 'DIAS100-INC' or code == 'DIAS66' or code == 'DIAS50' or code == 'DIASVAC' " 
+                                decoration-bf="code == 'SALARIONETO' or code == 'TOTALDEV' or code == 'TOTALDED'">
+                                <field name="sequence" invisible="1"/>
+                                <field name="category_id" invisible="1"/>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="quantity" invisible="1"/>
+                                <field name="rate" invisible="1"/>
+                                <field name="salary_rule_id" invisible="1"/>
+                                <field name="amount" invisible="1"/>
+                                <field name="total"/>
+                            </tree>
+                        </field>
+                    </page>
+    			</xpath>
+    		</field>
+    	</record>
+    </data>
+</odoo>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Tipos de novedades contrato -->
+        <record id="view_subtipo_ev_tree" model="ir.ui.view">
+            <field name="name">at.subtype.tree</field>
+            <field name="model">at.subtype</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="type"></field>
+                    <field name="name"></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_subtipo_ev_form" model="ir.ui.view">
+            <field name="name">at.subtype.form</field>
+            <field name="model">at.subtype</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="type"></field>
+                        <field name="name"></field>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_list_subtipo_ev">
+            <field name="name">Subtipos de evaluaciones</field>
+            <field name="res_model">at.subtype</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_subtipo_ev" name="Subtipos de evaluaciones" parent="at_training" sequence="15" action="action_list_subtipo_ev"/>
+    </data>
+</odoo>

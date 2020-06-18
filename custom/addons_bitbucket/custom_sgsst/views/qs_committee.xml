@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- ************ Quejas y sugerencias a comité de convivencia ************ -->
+
+		<!-- vista lista -->
+		<record id="qscommittee_view_tree" model="ir.ui.view">
+			<field name="model">custom.qscommittee</field>
+			<field name="arch" type="xml">
+				<tree decoration-info="state== 'draft'" decoration-muted="state== 'closed'">
+					<field name="id" string="Id del caso"></field>
+					<field name="create_uid" string="Nombre de quien creó el caso"></field>
+					<field name="case_type"></field>
+					<field name="state"></field>
+					<field name="create_date" string="Fecha de inicio"></field>
+					<field name="date_close"></field>
+				</tree>
+			</field>
+		</record>
+
+		<!-- vista formulario -->
+		<record id="qscommittee_view_form" model="ir.ui.view">
+			<field name="model">custom.qscommittee</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<button string="Iniciar ejecuión" name="action_start" type="object" states="draft" class="oe_highlight"/>
+						<button string="Iniciar Seguimiento" name="action_tracing" type="object" states="start" class="oe_highlight"/>
+						<button string="Resolver" name="action_solve" type="object" states="tracing" class="oe_highlight"/>
+						<button string="Cerrar" name="action_close" type="object" states="solved" class="oe_highlight"/>
+						<field name="state" statusbar_visible="draft,start,tracing,solved,closed" widget="statusbar"/>
+					</header>
+					<sheet>
+						<separator string="Presentación de quejas relacionadas con conflicto"/>
+						<group>
+							<group name="izq1" class="oe_read_only">
+								<field name="create_date" string="Fecha" />
+							</group>
+							<group name="der1" class="oe_read_only">
+								<field name="id" string="Id del caso"/>
+							</group>
+							<group  name="izq2">
+								<field name="employee_id" string="Nombre del empleado" required="1" options='{"no_open": True, "no_create": True}' attrs="{'readonly':['|', '|', '|', ('state', '=', 'start'), ('state', '=', 'tracing'), ('state', '=', 'solved'), ('state', '=', 'closed')]}" />
+							</group>
+							<group name="der2" class="oe_read_only">
+								<field name="id_str"/>
+								<field name="job_str"/>
+								<field name="dp_str"/>
+							</group>
+							<group name="izq3">
+								<field name="case_type" attrs="{'readonly':['|', '|', '|', ('state', '=', 'start'), ('state', '=', 'tracing'), ('state', '=', 'solved'), ('state', '=', 'closed')]}"/>
+							</group>
+						</group>
+						<group>
+							<group name="izq4">
+								<field name="assign_id" string="Asignado a" options='{"no_open": True, "no_create": True}' attrs="{'invisible':[('state', '=', 'draft')], 'readonly':['|', ('state', '=', 'solved'), ('state', '=', 'closed')], 'required':['|', '|', '|', ('state', '=', 'start'), ('state', '=', 'tracing'), ('state', '=', 'solved'), ('state', '=', 'closed')]}"/>
+							</group>
+							<group name="der4" class="oe_read_only">
+								<field name="date" attrs="{'invisible':[('state', '=', 'draft')]}"/>
+							</group>
+						</group>
+
+                        <notebook name="notebook">
+                        	<page name="draft" string="Descripción inicial">
+                        		<separator string="Relación de los hechos constitutivos de la queja" attrs="{'invisible':['|', ('case_type', '=', 'sugerencia'), ('case_type', '=', False)]}"/>
+		                        <separator string="Sugerencias" attrs="{'invisible':['|', ('case_type', '=', 'queja'), ('case_type', '=', False)]}"/>
+
+		                        <label string="Describa todos los elementos en los que se identifiquen las circunstancias de sujeto (quién o quiénes), tiempo (cuándo), modo (cómo), lugar (dónde) y cualquier otra que considere pertinente." attrs="{'invisible':['|', ('case_type', '=', 'sugerencia'), ('case_type', '=', False)]}"/>
+		                        <label string="Orientadas a la actividad de prevención de las situaciones que puedan constituir acoso laboral." attrs="{'invisible':['|', ('case_type', '=', 'queja'), ('case_type', '=', False)]}"/>
+		                        <field name="description_qs" nolabel="1" attrs="{'invisible':[('case_type', '=', False)], 'readonly':['|', '|', '|', ('state', '=', 'start'), ('state', '=', 'tracing'), ('state', '=', 'solved'), ('state', '=', 'closed')]}"/>
+		                        
+		                        <label string="¿ Cuanto usted con alguna prueba? ¿Cuáles? Relaciónelas y adjúntelas?" attrs="{'invisible':['|', ('case_type', '=', 'sugerencia'), ('case_type', '=', False)]}"/>
+		                        <label string="Orientadas a la actividad de la corrección de situaciones que puedan constituir acoso laboral" attrs="{'invisible':['|', ('case_type', '=', 'queja'), ('case_type', '=', False)]}"/>
+		                        <field name="test_and_fixes" nolabel="1" attrs="{'invisible':[('case_type', '=', False)], 'readonly':['|', '|', '|', ('state', '=', 'start'), ('state', '=', 'tracing'), ('state', '=', 'solved'), ('state', '=', 'closed')]}"/>
+                        	</page>
+                        	<page name="start" string="Observaciones o documentos aportados" attrs="{'invisible':[('state','=','draft')]}">
+                        		<group>
+			                        <field name="notes" nolabel="1" context="{'default_qs_id': active_id}" attrs="{'readonly':['|', '|', ('state', '=', 'tracing'), ('state', '=', 'solved'), ('state', '=', 'closed')]}">
+			                            <tree>
+			                                <field name="assign_id"/>
+			                                <field name="name"/>
+			                            </tree>
+			                            <form>
+			                                <group class="oe_read_only" name="main">
+			                                    <field name="qs_id" string="ID de la solicitud"/>
+			                                </group>
+			                                <group name="observations">
+			                                    <field name="name" required="1"/>
+			                                    <field name="observations"/>
+			                                </group>
+			                            </form>
+			                        </field>
+			                    </group>
+		                    </page>
+		                    <page name="tracing" string="Seguimiento" attrs="{'invisible':['|', ('state','=','draft'), ('state','=','start')]}">
+		                    	<group>
+		                    		<field name="abstract_tracing" attrs="{'readonly':['|', ('state', '=', 'solved'), ('state', '=', 'closed')]}"/>
+		                    		<field name="answer_tracing" attrs="{'readonly':['|', ('state', '=', 'solved'), ('state', '=', 'closed')]}"/>
+		                    	</group>
+		                    </page>
+		                    <page name="solved" string="Solución" attrs="{'invisible':['|', '|', ('state','=','draft'), ('state','=','start'), ('state','=','tracing')]}">
+		                    	<separator string="Caso Resuelto" attrs="{'invisible':[('state', '=', 'closed')]}"/>
+		                        <separator string="Caso Cerrado" attrs="{'invisible':[('state', '=', 'solved')]}"/>
+		                    	<group>
+		                    		<field name="abstract_solved" attrs="{'readonly':[('state', '=', 'closed')]}"/>
+		                    		<field name="answer_solved" attrs="{'readonly':[('state', '=', 'closed')]}"/>
+		                    		<field name="comment_solved" attrs="{'readonly':[('state', '=', 'closed')]}"/>
+		                    	</group>
+		                    </page>
+                        </notebook>
+
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+						<field name="message_ids" widget="mail_thread"/>
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<!-- acciones -->
+		<record id="qs_sst_action" model="ir.actions.act_window">
+			<field name="name">Presentación de quejas relacionadas con conflicto</field>
+			<field name="res_model">custom.qscommittee</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

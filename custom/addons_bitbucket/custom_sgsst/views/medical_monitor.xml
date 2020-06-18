@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- ************ Casos seguridad y salud / Seguimiento de casos************ -->
+
+
+		<!-- vista lista -->
+		<record id="medicalmonitor_view_tree" model="ir.ui.view">
+			<field name="model">custom.medical.monitor</field>
+			<field name="arch" type="xml">
+				<tree decoration-info="state== 'draft'" decoration-muted="state== 'reviewed'">
+					<field name="id" string="Id del caso"></field>
+					<field name="employee_id" string="Nombre del colaborador"></field>
+					<field name="event_type"></field>
+					<field name="state"></field>
+				</tree>
+			</field>
+		</record>
+
+		<!-- vista formulario -->
+		<record id="medicalmonitor_view_form" model="ir.ui.view">
+			<field name="model">custom.medical.monitor</field>
+			<field name="arch" type="xml">
+				<form>
+					<header>
+						<field name="state" widget="statusbar"/>
+					</header>
+					<sheet>
+						<separator string="Datos personales"/>
+						<group col="4" class="oe_read_only">
+							<field name="create_date" string="Fecha"/>
+							<field name="id" string="Id del caso"/>
+						</group>
+						<group col="4">
+							<field name="employee_id" required="1" options='{"no_open": True, "no_create": True}'/>
+							<field name="event_type" required="1"/>
+						</group>
+						<group col="4" class="oe_read_only">
+							<field name="id_str"/>
+							<field name="place_str"/>
+							<field name="cel_str"/>
+							<field name="tel_str"/>
+							<field name="gender_str"/>
+						</group>
+						<group col="4" string="Informacion ocupacional actual" class="oe_read_only">
+							<field name="job_str"/>
+							<field name="worked_time_str"/>
+							<field name="usual_posture_str"/>
+							<field name="job_analisys_bool"/>
+							<field name="elem_str"/>
+							<field name="des_dep_id"/>
+							<field name="tools_equipment"/>
+						</group>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+						<field name="message_ids" widget="mail_thread"/>
+					</div>
+				</form>
+			</field>
+		</record>
+
+		<!-- acciones -->
+		<record id="medicalmonitor_sst_action" model="ir.actions.act_window">
+			<field name="name">Seguimiento de casos medicos </field>
+			<field name="res_model">custom.medical.monitor</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>
+
